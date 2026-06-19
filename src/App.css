@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@source "../src";
+/* @import "tw-animate-css"; */
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================================
+   Cyber Lady — premium minimal e-commerce design system
+   Ivory canvas, ink type, warm clay accent, editorial serif.
+   ========================================================= */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ink: var(--ink);
+  --color-clay: var(--clay);
+  --color-stone: var(--stone);
+  --color-cream: var(--cream);
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /* Canvas */
+  --background: oklch(0.985 0.008 80);      /* warm ivory */
+  --cream: oklch(0.97 0.014 78);
+  --stone: oklch(0.93 0.012 75);
+
+  --foreground: oklch(0.18 0.012 60);       /* deep ink */
+  --ink: oklch(0.18 0.012 60);
+  --clay: oklch(0.55 0.085 45);             /* warm terracotta accent */
+
+  --card: oklch(0.99 0.006 80);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.99 0.006 80);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.18 0.012 60);
+  --primary-foreground: oklch(0.985 0.008 80);
+  --secondary: oklch(0.95 0.012 78);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.95 0.012 78);
+  --muted-foreground: oklch(0.48 0.012 60);
+  --accent: oklch(0.55 0.085 45);
+  --accent-foreground: oklch(0.985 0.008 80);
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: oklch(0.985 0.008 80);
+  --border: oklch(0.88 0.01 75);
+  --input: oklch(0.88 0.01 75);
+  --ring: oklch(0.55 0.085 45);
+
+  --chart-1: oklch(0.55 0.085 45);
+  --chart-2: oklch(0.7 0.04 75);
+  --chart-3: oklch(0.4 0.03 60);
+  --chart-4: oklch(0.85 0.02 80);
+  --chart-5: oklch(0.6 0.05 30);
+
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --shadow-soft: 0 30px 80px -40px oklch(0.18 0.012 60 / 0.25);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--ink); color: var(--cream); }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ----- Utilities ----- */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+}
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+@utility rule {
+  height: 1px;
+  background: var(--border);
+  width: 100%;
+}
+
+@utility hairline {
+  border-color: var(--border);
+}
+
+@utility link-underline {
+  position: relative;
+  display: inline-block;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform 400ms cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  &:hover::after { transform-origin: left; transform: scaleX(1); }
+}
+
+@utility marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
