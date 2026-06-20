@@ -10,7 +10,8 @@ export type Product = {
   name: string;
   price: number;
   color: string;
-  category: "Heels" | "Flats" | "Mules" | "Block";
+  type: "Gents" | "Ladies" | "Boys & Girls" | "Kids";
+  category: "Sandals" | "Flip Flop" | "Slippers" | "Shoes";
   material: "Leather" | "Suede" | "Metallic" | "Woven";
   image: string;
   tagline: string;
@@ -24,7 +25,8 @@ export const products: Product[] = [
     name: "Noir Strap 110",
     price: 285,
     color: "Onyx",
-    category: "Heels",
+    type: "Ladies",
+    category: "Sandals",
     material: "Leather",
     image: sandal1,
     tagline: "Architectural stiletto, all night.",
@@ -37,7 +39,8 @@ export const products: Product[] = [
     name: "Caramel Slide",
     price: 198,
     color: "Caramel",
-    category: "Flats",
+    type: "Ladies",
+    category: "Slippers",
     material: "Leather",
     image: sandal2,
     tagline: "The everyday object of desire.",
@@ -50,7 +53,8 @@ export const products: Product[] = [
     name: "Ivory Block 65",
     price: 245,
     color: "Ivory",
-    category: "Block",
+    type: "Ladies",
+    category: "Shoes",
     material: "Leather",
     image: sandal3,
     tagline: "Quiet confidence on a block heel.",
@@ -63,7 +67,8 @@ export const products: Product[] = [
     name: "Rosa Kitten 55",
     price: 220,
     color: "Blush",
-    category: "Heels",
+    type: "Ladies",
+    category: "Sandals",
     material: "Leather",
     image: sandal4,
     tagline: "A whisper of pink.",
@@ -76,7 +81,8 @@ export const products: Product[] = [
     name: "Luna Gold 60",
     price: 265,
     color: "Gold",
-    category: "Block",
+    type: "Ladies",
+    category: "Sandals",
     material: "Metallic",
     image: sandal5,
     tagline: "Burnished, never bright.",
@@ -89,7 +95,8 @@ export const products: Product[] = [
     name: "Cocoa Weave",
     price: 235,
     color: "Cocoa",
-    category: "Mules",
+    type: "Ladies",
+    category: "Slippers",
     material: "Woven",
     image: sandal6,
     tagline: "Hand-woven, slow-made.",

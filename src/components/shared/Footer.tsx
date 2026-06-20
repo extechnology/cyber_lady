@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom";
+import { FaLocationDot, FaPhone, FaEnvelope } from "react-icons/fa6";
 
 export function Footer() {
   return (
-    <footer className="mt-32 border-t border-border bg-cream">
+    <footer className=" border-t border-border bg-cream">
       <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-12">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Link to="/" className="display text-2xl">
-              cyber<span className="text-accent">·</span>lady
+            <Link to="/" className="inline-block">
+              <img
+                src="/logo/logo1.png"
+                className="h-16 w-auto"
+                alt="Cyber Lady Logo"
+              />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               Sandals made slowly, in small numbers, by hands we know by name.
@@ -15,36 +20,69 @@ export function Footer() {
           </div>
 
           <FooterCol
-            title="products"
+            title="Products"
             links={[
               { to: "/products", label: "All sandals" },
-              { to: "/products", label: "Heels" },
-              { to: "/products", label: "Flats" },
-              { to: "/products", label: "New arrivals" },
+              { to: "/products", label: "Gents" },
+              { to: "/products", label: "Ladies" },
+              { to: "/products", label: "Boys & Girls" },
+              { to: "/products", label: "Kids" },
             ]}
           />
+          
           <FooterCol
-            title="House"
+            title="Links"
             links={[
-              { to: "/", label: "Atelier" },
-              { to: "/", label: "Journal" },
+              { to: "/", label: "Home" },
+              { to: "/products", label: "Products" },
               { to: "/contact", label: "Contact" },
             ]}
           />
-          <FooterCol
-            title="Care"
-            links={[
-              { to: "/", label: "Shipping" },
-              { to: "/", label: "Returns" },
-              { to: "/", label: "Sizing" },
-            ]}
-          />
+
+          <div>
+            <p className="eyebrow">Contact Us</p>
+            <ul className="mt-4 space-y-4 text-sm text-ink">
+              <li className="flex items-start gap-3 text-muted-foreground">
+                <FaLocationDot className="mt-1 shrink-0 text-ink" />
+                <span className="leading-relaxed">
+                  Cyber Lady Foryex Footcare Co.
+                  <br />
+                  West Mangad P.O.
+                  <br />
+                  Kunnamkulam
+                  <br />
+                  Thrissur, Kerala – India
+                </span>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <FaPhone className="text-ink" />
+                <a
+                  href="tel:+919447995173"
+                  className="link-underline"
+                >
+                  +91 94479 95173
+                </a>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <FaEnvelope className="text-ink" />
+                <a
+                  href="mailto:foriyexfootcare@gmail.com"
+                  className="link-underline"
+                >
+                  foriyexfootcare@gmail.com
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="rule mt-16" />
         <div className="mt-6 flex flex-col items-start justify-between gap-2 text-xs text-muted-foreground md:flex-row md:items-center">
           <p>© {new Date().getFullYear()} Cyber Lady</p>
-          <p className="tracking-[0.2em] uppercase">Ivory · Ink · Clay</p>
+          <p>Developed by <Link to="https://www.extechnology.in/">extechnology.in</Link></p>
+          <p className="text-xs tracking-[.1] ">Privacy Policy · Terms & Conditions · Refund Policy · Shipping Policy</p>
         </div>
       </div>
     </footer>

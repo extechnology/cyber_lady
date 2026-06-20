@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Link, useParams } from "react-router-dom";
 
 import { products, getProduct } from "../lib/products";
@@ -7,12 +7,25 @@ import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { Reveal } from "../components/site/Reveal";
 import { ProductCard } from "../components/site/ProductCard";
 
+const COLOR_MAP: Record<string, string> = {
+  Onyx: "#1a1a1a",
+  Caramel: "#C68E65",
+  Ivory: "#FDFBF7",
+  Blush: "#F2D1D1",
+  Gold: "#CFA052",
+  Cocoa: "#5D4037",
+  "Classic Black": "#000000",
+  "Pure White": "#FFFFFF",
+};
+
 
 export default function DetailPage() {
   const { id } = useParams<{ id: string }>();
   const product = getProduct(id ?? "");
 
   const [size, setSize] = useState<number | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   if (!product) {
     return (
@@ -81,14 +94,17 @@ export default function DetailPage() {
             <p className="mt-4 italic text-muted-foreground">
               {product.tagline}
             </p>
-            <p className="mt-8 text-2xl tabular-nums">${product.price}</p>
+            <p className="mt-8 text-2xl tabular-nums">₹{product.price}</p>
           </Reveal>
 
           <Reveal delay={0.1}>
             <div className="mt-10 border-t border-border pt-8">
               <div className="flex items-center justify-between">
                 <p className="eyebrow">Size — EU</p>
-                <button className="link-underline text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
+                <button
+                  onClick={() => setShowSizeGuide(true)}
+                  className="link-underline text-[11px] uppercase tracking-[0.25em] text-muted-foreground"
+                >
                   Size guide
                 </button>
               </div>
@@ -111,12 +127,40 @@ export default function DetailPage() {
                 })}
               </div>
             </div>
+
+            <div className="mt-8 border-t border-border pt-8">
+              <div className="flex items-center justify-between">
+                <p className="eyebrow">Colour</p>
+                <span className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
+                  {selectedColor || product.color}
+                </span>
+              </div>
+              <div className="mt-5 flex flex-wrap gap-4">
+                {[product.color, "Classic Black", "Pure White"].map((c) => {
+                  const active = (selectedColor || product.color) === c;
+                  const bg = COLOR_MAP[c] || "#CCCCCC";
+                  return (
+                    <button
+                      key={c}
+                      title={c}
+                      onClick={() => setSelectedColor(c)}
+                      style={{ backgroundColor: bg }}
+                      className={`h-10 w-10 rounded-full border transition-all ${
+                        active
+                          ? "ring-2 ring-ink ring-offset-2 border-transparent"
+                          : "border-border hover:ring-1 hover:ring-ink"
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           </Reveal>
 
           <Reveal delay={0.15}>
             <div className="mt-8 flex flex-col gap-3">
               <button className="bg-ink py-5 text-[11px] uppercase tracking-[0.3em] text-cream transition-colors hover:bg-accent">
-                Add to bag — ${product.price}
+                Add to bag — ₹{product.price}
               </button>
               <button className="border border-border py-5 text-[11px] uppercase tracking-[0.3em] hover:border-ink">
                 Save for later
@@ -127,18 +171,9 @@ export default function DetailPage() {
           <Reveal delay={0.2}>
             <div className="mt-12 space-y-6 border-t border-border pt-8">
               <Detail label="Description" value={product.description} />
-              <Detail label="Colour" value={product.color} />
               <Detail
                 label="Material"
                 value={`${product.material}, vegetable-tanned`}
-              />
-              <Detail
-                label="Made in"
-                value="Marche, Italy · by a single artisan"
-              />
-              <Detail
-                label="Shipping"
-                value="Complimentary worldwide. Carbon-neutral."
               />
             </div>
           </Reveal>
@@ -169,6 +204,59 @@ export default function DetailPage() {
           ))}
         </div>
       </section>
+      {/* Size guide modal */}
+      <AnimatePresence>
+        {showSizeGuide && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-6 backdrop-blur-sm"
+            onClick={() => setShowSizeGuide(false)}
+          >
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-lg bg-cream p-8 shadow-2xl"
+            >
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="display text-2xl">Size Guide</h3>
+                <button onClick={() => setShowSizeGuide(false)} className="text-xl leading-none hover:text-accent transition-colors">&times;</button>
+              </div>
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-[0.1em]">EU</th>
+                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-[0.1em]">US</th>
+                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-[0.1em]">UK</th>
+                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-[0.1em]">Length (cm)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    [35, 5, 2.5, 22.8],
+                    [36, 6, 3.5, 23.5],
+                    [37, 6.5, 4, 24.1],
+                    [38, 7.5, 5, 24.8],
+                    [39, 8.5, 6, 25.5],
+                    [40, 9, 6.5, 26.2],
+                    [41, 10, 7.5, 26.8],
+                  ].map(([eu, us, uk, cm]) => (
+                    <tr key={eu} className="border-b border-border/50">
+                      <td className="py-3 tabular-nums">{eu}</td>
+                      <td className="py-3 tabular-nums">{us}</td>
+                      <td className="py-3 tabular-nums">{uk}</td>
+                      <td className="py-3 tabular-nums">{cm}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

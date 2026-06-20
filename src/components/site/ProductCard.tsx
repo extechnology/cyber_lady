@@ -44,7 +44,7 @@ export function ProductCard({
               {product.color} · {product.category}
             </p>
           </div>
-          <p className="text-sm tabular-nums">${product.price}</p>
+          <p className="text-sm tabular-nums">₹{product.price}</p>
         </div>
       </Link>
     </motion.article>

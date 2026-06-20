@@ -7,31 +7,31 @@ import { Reveal } from "../components/site/Reveal";
 import { ProductCard } from "../components/site/ProductCard";
 
 
-const CATEGORIES = ["All", "Heels", "Flats", "Block", "Mules"] as const;
-const MATERIALS = ["All", "Leather", "Suede", "Metallic", "Woven"] as const;
+const CATEGORIES = ["All", "Gents", "Ladies", "Boys & Girls", "Kids"] as const;
+const TYPES = ["All", "Sandals", "Flip Flop", "Slippers", "Shoes"] as const;
 const SORTS = ["Featured", "Price · low", "Price · high"] as const;
 
 type Category = (typeof CATEGORIES)[number];
-type Material = (typeof MATERIALS)[number];
+type Type = (typeof TYPES)[number];
 type Sort = (typeof SORTS)[number];
 
 export default function ProductsPage() {
   const [cat, setCat] = useState<Category>("All");
-  const [mat, setMat] = useState<Material>("All");
+  const [type, setType] = useState<Type>("All");
   const [sort, setSort] = useState<Sort>("Featured");
 
   const filtered = useMemo(() => {
     let list: Product[] = products.filter(
       (p) =>
-        (cat === "All" || p.category === cat) &&
-        (mat === "All" || p.material === mat),
+        (cat === "All" || p.type === cat) &&
+        (type === "All" || p.category === type),
     );
     if (sort === "Price · low")
       list = [...list].sort((a, b) => a.price - b.price);
     if (sort === "Price · high")
       list = [...list].sort((a, b) => b.price - a.price);
     return list;
-  }, [cat, mat, sort]);
+  }, [cat, type, sort]);
 
   return (
     <>
@@ -68,10 +68,10 @@ export default function ProductsPage() {
             onChange={(v) => setCat(v)}
           />
           <FilterRow
-            label="Material"
-            options={MATERIALS}
-            value={mat}
-            onChange={(v) => setMat(v)}
+            label="Type"
+            options={TYPES}
+            value={type}
+            onChange={(v) => setType(v)}
           />
           <div className="flex items-center gap-3">
             <span className="text-muted-foreground">Sort</span>
@@ -108,7 +108,7 @@ export default function ProductsPage() {
             </motion.div>
           ) : (
             <motion.div
-              key={`${cat}-${mat}-${sort}`}
+              key={`${cat}-${type}-${sort}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

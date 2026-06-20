@@ -1,14 +1,34 @@
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
+import { useRef, useState, useEffect, useCallback } from "react";
 
 import heroSandal from "../assets/hero-sandal.jpeg";
 import lifestyle1 from "../assets/lifestyle-1.jpeg";
+import sandal1 from "../assets/sandal-1.jpeg";
+import sandal2 from "../assets/sandal-2.jpeg";
+import sandal3 from "../assets/sandal-3.jpeg";
+import sandal4 from "../assets/sandal-4.jpeg";
+import sandal5 from "../assets/sandal-5.jpeg";
+import sandal6 from "../assets/sandal-6.jpeg";
 import { products } from "../lib/products";
 import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { Reveal } from "../components/site/Reveal";
 import { ProductCard } from "../components/site/ProductCard";
 
+const CAROUSEL_SLIDES = [
+  {
+    src: heroSandal,
+    label: "The Nude Strap",
+    no: "01",
+    sub: "110mm · Calfskin",
+  },
+  { src: sandal1, label: "Noir Strap 110", no: "02", sub: "Onyx · Leather" },
+  { src: sandal2, label: "Caramel Slide", no: "03", sub: "Caramel · Leather" },
+  { src: sandal3, label: "Ivory Block 65", no: "04", sub: "Ivory · Leather" },
+  { src: sandal4, label: "Rosa Kitten 55", no: "05", sub: "Blush · Leather" },
+  { src: sandal5, label: "Luna Gold 60", no: "06", sub: "Gold · Metallic" },
+  { src: sandal6, label: "Cocoa Weave", no: "07", sub: "Cocoa · Woven" },
+];
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -17,8 +37,27 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  // Carousel state
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [dir, setDir] = useState(1);
+  const total = CAROUSEL_SLIDES.length;
+
+  const go = useCallback(
+    (next: number, direction: number) => {
+      setDir(direction);
+      setActive((next + total) % total);
+    },
+    [total],
+  );
+
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => go(active + 1, 1), 4000);
+    return () => clearInterval(id);
+  }, [active, paused, go]);
 
   const featured = products.slice(0, 3);
 
@@ -27,11 +66,14 @@ export default function Home() {
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-6 pb-20 pt-12 md:grid-cols-12 md:px-12 md:pt-5">
-          <motion.div style={{ y, opacity }} className="md:col-span-6 content-center">
+          <motion.div
+            style={{ y, opacity }}
+            className="md:col-span-6 content-center"
+          >
             <Breadcrumbs
               items={[
                 { label: "Cyber Lady", to: "/" },
-                { label: "Spring Collection" },
+                { label: "Elegant Collection" },
               ]}
             />
             <motion.h1
@@ -40,9 +82,11 @@ export default function Home() {
               transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
               className="display mt-10 text-[14vw] leading-[0.95] tracking-[-0.04em] md:text-5xl"
             >
-              Sandals,
+              Elegance Starts from the Ground Up,
               <br />
-              <span className="italic text-accent">slowly</span> made.
+              <span className="italic text-accent">
+                Wear It Beautifully.{" "}
+              </span>{" "}
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -50,9 +94,8 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground"
             >
-              A small house of leather sandals for the woman who chooses few
-              things, well. Each pair finished by a single artisan in Marche,
-              Italy.
+              Stylish, comfortable, and crafted for every occasion, our ladies'
+              footwear collection adds elegance and confidence to every step.
             </motion.p>
 
             <motion.div
@@ -70,36 +113,141 @@ export default function Home() {
                   →
                 </span>
               </Link>
-              <Link
-                to="/contact"
-                className="link-underline text-[11px] uppercase tracking-[0.25em]"
-              >
-                Atelier visit
-              </Link>
             </motion.div>
           </motion.div>
 
-          <div className="md:col-span-6">
-            <motion.div
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-              className="relative  overflow-hidden bg-stone"
+          {/* ── HERO CAROUSEL ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="md:col-span-6"
+          >
+            <div
+              className="
+group
+relative
+aspect-[1.1]
+overflow-hidden
+rounded-md
+bg-stone-950
+ring-1
+ring-white/10
+"
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
             >
-              <motion.img
-                src={heroSandal}
-                alt="Cyber Lady signature strappy sandal in nude leather"
-                width={1600}
-                height={1600}
-                style={{ scale: imgScale }}
-                className="h-full w-full aspect-square object-cover"
-              />
-              <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between text-cream">
-                <p className="eyebrow text-cream/70">N° 01</p>
-                <p className="display text-sm">The Nude Strap</p>
+              {/* Slides */}
+              <AnimatePresence mode="wait" initial={false} custom={dir}>
+                <motion.div
+                  key={active}
+                  custom={dir}
+                  className="absolute inset-0 overflow-hidden"
+                  variants={{
+                    enter: (d: number) => ({
+                      x: d > 0 ? 120 : -120,
+                      opacity: 0,
+                      scale: 1.15,
+                      rotate: d > 0 ? 2 : -2,
+                      filter: "brightness(0.75)",
+                    }),
+                    center: {
+                      x: 0,
+                      opacity: 1,
+                      scale: 1,
+                      rotate: 0,
+                      filter: "brightness(1)",
+                    },
+                    exit: (d: number) => ({
+                      x: d > 0 ? -120 : 120,
+                      opacity: 0,
+                      scale: 0.92,
+                      rotate: d > 0 ? -2 : 2,
+                      filter: "brightness(0.75)",
+                    }),
+                  }}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    duration: 1.1,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  <motion.img
+                    src={CAROUSEL_SLIDES[active].src}
+                    alt={CAROUSEL_SLIDES[active].label}
+                    width={1600}
+                    height={1600}
+                    className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                    animate={{
+                      scale: [1.08, 1.16],
+                      x: [0, -12],
+                      y: [0, -8],
+                    }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      ease: "linear",
+                    }}
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Gradient overlay */}
+              {/* <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-ink/70 via-transparent to-transparent" /> */}
+
+              {/* Progress bar */}
+              <div className="absolute top-0 left-0 right-0 flex gap-1 p-3">
+                {CAROUSEL_SLIDES.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => go(i, i > active ? 1 : -1)}
+                    className="h-0.5 flex-1 overflow-hidden bg-cream/30"
+                    aria-label={`Go to slide ${i + 1}`}
+                  >
+                    {i === active && (
+                      <motion.span
+                        className="block h-full bg-cream"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: paused ? undefined : 1 }}
+                        transition={{ duration: 4, ease: "linear" }}
+                        style={{ transformOrigin: "left" }}
+                      />
+                    )}
+                    {i < active && <span className="block h-full bg-cream" />}
+                  </button>
+                ))}
               </div>
-            </motion.div>
-          </div>
+
+              {/* Bottom info bar */}
+              <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between px-6 pb-6">
+                {/* Prev / Next */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => go(active - 1, -1)}
+                    className="flex h-10 w-10 items-center justify-center border border-cream/30 text-cream backdrop-blur-sm transition-colors hover:border-cream hover:bg-cream/10"
+                    aria-label="Previous slide"
+                  >
+                    ←
+                  </button>
+                  <button
+                    onClick={() => go(active + 1, 1)}
+                    className="flex h-10 w-10 items-center justify-center border border-cream/30 text-cream backdrop-blur-sm transition-colors hover:border-cream hover:bg-cream/10"
+                    aria-label="Next slide"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              {/* Slide counter badge */}
+              <div className="absolute top-5 right-5 flex h-10 w-10 items-center justify-center border border-cream/30 bg-ink/40 text-[11px] tabular-nums tracking-widest text-cream backdrop-blur-sm">
+                {String(active + 1).padStart(2, "0")}
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         {/* marquee */}
@@ -108,12 +256,16 @@ export default function Home() {
             {Array.from({ length: 2 }).map((_, k) => (
               <div key={k} className="flex gap-16">
                 {[
-                  "Made in Italy",
-                  "Vegetable-tanned leather",
-                  "Small runs · numbered",
-                  "Free worldwide shipping",
-                  "Hand-finished",
-                  "Lifetime resole",
+                  "Stylish",
+                  "Comfortable",
+                  "Durable",
+                  "Lightweight",
+                  "Trendy",
+                  "Elegant",
+                  "Flexible",
+                  "Cushioned",
+                  "Breathable",
+                  "Premium",
                 ].map((t) => (
                   <span key={t} className="flex items-center gap-16">
                     {t}
@@ -132,10 +284,10 @@ export default function Home() {
       <section className="mx-auto max-w-[1400px] px-6 py-28 md:px-12 md:py-40">
         <div className="mb-16 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <Reveal>
-            <p className="eyebrow">Chapter 01 — Quiet luxury</p>
+            <p className="eyebrow">Prime Edition — Quiet Comfortable</p>
             <h2 className="display mt-4 max-w-3xl text-3xl leading-none md:text-5xl">
-              Six pieces. <span className="italic text-accent">Endless</span>{" "}
-              ways to wear them.
+              Step into Confidence. Step into{" "}
+              <span className="italic text-accent">Beauty</span>.
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
@@ -159,7 +311,7 @@ export default function Home() {
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 px-6 py-28 md:grid-cols-12 md:gap-20 md:px-12 md:py-40">
           <Reveal className="md:col-span-7">
-            <div className="aspect-4/5 overflow-hidden bg-stone">
+            <div className="aspect-square overflow-hidden bg-stone">
               <motion.img
                 src={lifestyle1}
                 alt="Woman walking in Cyber Lady nude strap sandals on marble"
@@ -177,27 +329,26 @@ export default function Home() {
 
           <div className="md:col-span-5 md:pt-24">
             <Reveal>
-              <p className="eyebrow">Chapter 02 — The atelier</p>
+              <p className="eyebrow">Confidence</p>
               <h2 className="display mt-6 text-4xl leading-[1.05] md:text-5xl">
-                Two weeks. One pair. One{" "}
-                <span className="italic text-accent">pair of hands.</span>
+                Chic Looks Begin at Your Feet, Walk with{" "}
+                <span className="italic text-accent">Confidence</span>.
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-8 text-base leading-relaxed text-muted-foreground">
-                Our sandals are built the slow way — pattern cut by hand,
-                leather edged with wax, soles stitched by a single artisan from
-                start to finish. We make small numbers, because that's what the
-                craft asks for.
+                Your style begins with the perfect pair. Step into footwear that
+                blends elegance, comfort, and confidence, empowering you to walk
+                beautifully wherever life takes you.
               </p>
             </Reveal>
             <Reveal delay={0.2}>
               <dl className="mt-12 grid grid-cols-2 gap-y-8 border-t border-border pt-8">
                 {[
-                  ["14 days", "average build time"],
-                  ["1 artisan", "per pair, start to finish"],
-                  ["100 pairs", "per style, per season"],
-                  ["Lifetime", "resole programme"],
+                  ["1000+", "Unique Articles "],
+                  ["15+", "Color Patterns "],
+                  ["25Lk+", "Pair Deliver"],
+                  ["500+", "Trusted Distributors  "],
                 ].map(([k, v]) => (
                   <div key={k}>
                     <dt className="display text-3xl text-ink">{k}</dt>
@@ -213,7 +364,7 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-[1400px] px-6 py-28 text-center md:px-12 md:py-40">
+      <section className="mx-auto max-w-[1400px] px-6 py-10 text-center md:px-12 md:py-20">
         <Reveal>
           <p className="eyebrow">Chapter 03 — Yours</p>
           <h2 className="display mx-auto mt-6 max-w-4xl text-5xl leading-none md:text-7xl">
