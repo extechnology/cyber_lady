@@ -228,10 +228,10 @@ export default function DetailPage() {
               <table className="w-full text-left text-sm">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-[0.1em]">EU</th>
-                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-[0.1em]">US</th>
-                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-[0.1em]">UK</th>
-                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-[0.1em]">Length (cm)</th>
+                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-widest">EU</th>
+                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-widest">US</th>
+                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-widest">UK</th>
+                    <th className="pb-3 font-normal text-muted-foreground uppercase tracking-widest">Length (cm)</th>
                   </tr>
                 </thead>
                 <tbody>

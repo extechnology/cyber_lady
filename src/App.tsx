@@ -4,6 +4,7 @@ import { lazy, Suspense } from 'react'
 
 import { Header } from './components/shared/Navbar';
 import { Footer } from './components/shared/Footer';
+import { Loader } from './components/shared/Loader';
 import ScrollToTop from './components/shared/ScrollToTop';
 
 const Home = lazy(() => import("./pages/HomePage"));
@@ -18,7 +19,7 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Header />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />

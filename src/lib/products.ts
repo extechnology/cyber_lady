@@ -32,7 +32,7 @@ export const products: Product[] = [
     tagline: "Architectural stiletto, all night.",
     description:
       "An interwoven cage of buttery calfskin set on a precise 110mm heel. Hand-finished in a small Italian atelier.",
-    sizes: [35, 36, 37, 38, 39, 40, 41],
+    sizes: [5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: "caramel-slide",
@@ -46,7 +46,7 @@ export const products: Product[] = [
     tagline: "The everyday object of desire.",
     description:
       "A single sweep of vegetable-tanned leather, slip-on ease, and a low stacked sole. Wears in beautifully.",
-    sizes: [35, 36, 37, 38, 39, 40],
+    sizes: [5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: "ivory-block",
@@ -60,7 +60,7 @@ export const products: Product[] = [
     tagline: "Quiet confidence on a block heel.",
     description:
       "Slim crossover straps balance a sculpted 65mm block heel — a study in proportion.",
-    sizes: [35, 36, 37, 38, 39, 40, 41],
+    sizes: [5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: "rosa-kitten",
@@ -74,7 +74,7 @@ export const products: Product[] = [
     tagline: "A whisper of pink.",
     description:
       "Featherweight kitten heel with delicate ankle strap. Pale rose calfskin lined in nude.",
-    sizes: [35, 36, 37, 38, 39, 40],
+    sizes: [5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: "luna-gold",
@@ -88,7 +88,7 @@ export const products: Product[] = [
     tagline: "Burnished, never bright.",
     description:
       "Brushed metallic leather catches the light without shouting. Sturdy 60mm block heel.",
-    sizes: [36, 37, 38, 39, 40],
+    sizes: [5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: "cocoa-weave",
@@ -102,7 +102,7 @@ export const products: Product[] = [
     tagline: "Hand-woven, slow-made.",
     description:
       "Master-woven leather mule on a stacked walnut heel. Two weeks per pair, by a single artisan.",
-    sizes: [35, 36, 37, 38, 39, 40, 41],
+    sizes: [5, 6, 7, 8, 9, 10, 11],
   },
 ];
 

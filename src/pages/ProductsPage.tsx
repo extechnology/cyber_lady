@@ -49,12 +49,12 @@ export default function ProductsPage() {
               The <span className="italic text-accent">collection</span>
             </h1>
           </Reveal>
-          <Reveal delay={0.1}>
+          {/* <Reveal delay={0.1}>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
               {filtered.length} pieces · made in limited runs of one hundred.
               Each numbered by hand.
             </p>
-          </Reveal>
+          </Reveal> */}
         </div>
       </section>
 
