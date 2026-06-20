@@ -35,9 +35,6 @@ export function Header() {
 
         <div className="flex items-center gap-6 text-[13px] uppercase tracking-[0.2em]">
           <button className="link-underline hidden sm:inline">Search</button>
-          <button className="link-underline">
-            Bag <span className="text-muted-foreground">(0)</span>
-          </button>
         </div>
       </div>
     </header>

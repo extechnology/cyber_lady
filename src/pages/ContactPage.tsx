@@ -17,7 +17,6 @@ export default function Contact() {
 
         <div className="mt-10 border-b border-border pb-10">
           <Reveal>
-            <p className="eyebrow">Atelier · Marche, Italy</p>
             <h1 className="display mt-6 text-5xl leading-[0.95] md:text-6xl">
               Write to <span className="italic text-accent">us.</span>
             </h1>
@@ -37,24 +36,26 @@ export default function Contact() {
             <p className="eyebrow">House</p>
             <div className="mt-6 space-y-8 text-sm leading-relaxed">
               <Block
-                title="Atelier"
+                title="Cyber Lady"
                 lines={[
-                  "Via dei Calzolai 14",
-                  "62019 Recanati, Marche",
-                  "Italia",
+                  "Foryex Footcare Co.",
+                  "West Mangad Po",
+                  "Kunnamkulam",
+                  "Thrissur",
+                  "Kerala-India",
                 ]}
               />
-              <Block
+              {/* <Block
                 title="Studio hours"
                 lines={[
-                  "Tuesday — Saturday",
+                  "Monday — Saturday",
                   "10:00 — 18:00 CET",
                   "By appointment",
                 ]}
-              />
+              /> */}
               <Block
                 title="Direct"
-                lines={["hello@cyberlady.studio", "+39 071 000 0000"]}
+                lines={["foriyexfootcare@gmail.com", "+91 94479 95173"]}
               />
             </div>
           </Reveal>
