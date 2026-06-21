@@ -10,7 +10,7 @@ export type Product = {
   name: string;
   price: number;
   color: string;
-  type: "Gents" | "Ladies" | "Boys & Girls" | "Kids";
+  type: "Ladies" | "Gents" | "Gents & Boys" | "Kids";
   category: "Sandals" | "Flip Flop" | "Slippers" | "Shoes";
   material: "Leather" | "Suede" | "Metallic" | "Woven";
   image: string;

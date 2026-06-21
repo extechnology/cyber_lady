@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { FiChevronDown } from "react-icons/fi";
 
 import { products, type Product } from "../lib/products";
 import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { Reveal } from "../components/site/Reveal";
 import { ProductCard } from "../components/site/ProductCard";
 
-
-const CATEGORIES = ["All", "Gents", "Ladies", "Boys & Girls", "Kids"] as const;
+const CATEGORIES = ["All", "Ladies", "Girls", "Gents & Boys", "Kids"] as const;
 const TYPES = ["All", "Sandals", "Flip Flop", "Slippers", "Shoes"] as const;
 const SORTS = ["Featured", "Price · low", "Price · high"] as const;
 
@@ -49,43 +49,48 @@ export default function ProductsPage() {
               The <span className="italic text-accent">collection</span>
             </h1>
           </Reveal>
-          {/* <Reveal delay={0.1}>
-            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-              {filtered.length} pieces · made in limited runs of one hundred.
-              Each numbered by hand.
-            </p>
-          </Reveal> */}
         </div>
       </section>
 
       {/* Filters */}
-      <section className="sticky top-[72px] z-30 border-b border-border bg-background/85 backdrop-blur-md">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-6 py-5 text-[11px] uppercase tracking-[0.25em] md:flex-row md:items-center md:justify-between md:px-12">
-          <FilterRow
-            label="Category"
-            options={CATEGORIES}
-            value={cat}
-            onChange={(v) => setCat(v)}
-          />
-          <FilterRow
-            label="Type"
-            options={TYPES}
-            value={type}
-            onChange={(v) => setType(v)}
-          />
-          <div className="flex items-center gap-3">
-            <span className="text-muted-foreground">Sort</span>
-            <select
-              value={sort}
-              onChange={(e) => setSort(e.target.value as Sort)}
-              className="cursor-pointer border-b border-border bg-transparent pb-1 text-[11px] uppercase tracking-[0.25em] focus:border-accent focus:outline-none"
-            >
-              {SORTS.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
+      <section className="sticky top-[72px] z-30 border-b border-border bg-background/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-6 py-4 text-[11px] uppercase tracking-[0.25em] md:flex-row md:items-center md:justify-between md:px-12 md:py-5 md:text-xs">
+          <div className="flex w-full flex-col gap-4 overflow-hidden md:w-auto md:flex-row md:gap-8">
+            <FilterRow
+              label="Category"
+              options={CATEGORIES}
+              value={cat}
+              onChange={(v) => setCat(v)}
+            />
+            <FilterRow
+              label="Type"
+              options={TYPES}
+              value={type}
+              onChange={(v) => setType(v)}
+            />
+          </div>
+
+          <div className="flex items-center justify-between border-t border-border/50 pt-4 md:border-t-0 md:pt-0 md:justify-end">
+            <span className="w-[85px] shrink-0 text-muted-foreground md:hidden">Sort</span>
+            <div className="flex w-full items-center gap-3 md:w-auto">
+              <span className="hidden shrink-0 text-muted-foreground md:inline">Sort</span>
+              <div className="relative w-full md:w-auto">
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value as Sort)}
+                  className="w-full cursor-pointer appearance-none border-b border-border bg-transparent pb-1 pr-6 text-[11px] uppercase tracking-[0.25em] focus:border-accent focus:outline-none"
+                >
+                  {SORTS.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pb-1 text-muted-foreground">
+                  <FiChevronDown className="h-4 w-4" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -138,26 +143,28 @@ function FilterRow<T extends string>({
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-      <span className="text-muted-foreground">{label}</span>
-      {options.map((o) => {
-        const active = o === value;
-        return (
-          <button
-            key={o}
-            onClick={() => onChange(o)}
-            className={`relative pb-1 transition-colors ${active ? "text-accent" : "hover:text-ink"}`}
-          >
-            {o}
-            {active && (
-              <motion.span
-                layoutId={`underline-${label}`}
-                className="absolute inset-x-0 -bottom-0.5 h-px bg-accent"
-              />
-            )}
-          </button>
-        );
-      })}
+    <div className="flex w-full items-center">
+      <span className="w-[85px] shrink-0 text-muted-foreground md:w-auto md:pr-4">{label}</span>
+      <div className="flex flex-1 items-center gap-x-5 overflow-x-auto pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
+        {options.map((o) => {
+          const active = o === value;
+          return (
+            <button
+              key={o}
+              onClick={() => onChange(o)}
+              className={`relative shrink-0 cursor-pointer pb-1 transition-colors ${active ? "text-accent" : "hover:text-accent"}`}
+            >
+              {o}
+              {active && (
+                <motion.span
+                  layoutId={`underline-${label}`}
+                  className="absolute inset-x-0 -bottom-0.5 h-px bg-accent"
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

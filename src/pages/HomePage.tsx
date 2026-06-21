@@ -65,10 +65,10 @@ export default function Home() {
     <>
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-6 pb-20 pt-12 md:grid-cols-12 md:px-12 md:pt-5">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-6 pb-20  md:grid-cols-12 md:px-12 md:pt-5">
           <motion.div
             style={{ y, opacity }}
-            className="md:col-span-6 content-center"
+            className="md:col-span-6 content-center order-2 md:order-1"
           >
             <Breadcrumbs
               items={[
@@ -80,7 +80,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-              className="display mt-10 text-[14vw] leading-[0.95] tracking-[-0.04em] md:text-5xl"
+              className="display mt-10 text-3xl leading-[0.95] tracking-[-0.04em] md:text-5xl"
             >
               Elegance Starts from the Ground Up,
               <br />
@@ -105,7 +105,7 @@ export default function Home() {
               className="mt-10 flex items-center gap-6"
             >
               <Link
-                to="/shop"
+                to="/products"
                 className="group inline-flex items-center gap-3 bg-ink px-7 py-4 text-[11px] uppercase tracking-[0.25em] text-cream transition-colors hover:bg-accent"
               >
                 Explore the collection
@@ -121,7 +121,7 @@ export default function Home() {
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="md:col-span-6"
+            className="md:col-span-6 order-1 md:order-2"
           >
             <div
               className="
@@ -330,7 +330,7 @@ ring-white/10
           <div className="md:col-span-5 md:pt-24">
             <Reveal>
               <p className="eyebrow">Confidence</p>
-              <h2 className="display mt-6 text-4xl leading-[1.05] md:text-5xl">
+              <h2 className="display mt-6 text-3xl leading-[1.05] md:text-5xl">
                 Chic Looks Begin at Your Feet, Walk with{" "}
                 <span className="italic text-accent">Confidence</span>.
               </h2>
@@ -366,7 +366,7 @@ ring-white/10
       {/* CTA */}
       <section className="mx-auto max-w-[1400px] px-6 py-10 text-center md:px-12 md:py-20">
         <Reveal>
-          <p className="eyebrow">Chapter 03 — Yours</p>
+          {/* <p className="eyebrow">Chapter 03 — Yours</p> */}
           <h2 className="display mx-auto mt-6 max-w-4xl text-5xl leading-none md:text-7xl">
             Choose <span className="italic text-accent">one pair</span>
             <br />
@@ -376,7 +376,7 @@ ring-white/10
         <Reveal delay={0.15}>
           <div className="mt-12">
             <Link
-              to="/shop"
+              to="/products"
               className="inline-flex items-center gap-3 border-b border-ink pb-2 text-[12px] uppercase tracking-[0.3em] transition-colors hover:text-accent hover:border-accent"
             >
               Enter the shop →
