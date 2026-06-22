@@ -137,7 +137,7 @@ Could you please provide more details?`;
           : "border-transparent hover:border-gray-300"
       }`}
               >
-                <img src={src} className="h-40 w-full object-cover" />
+                <img src={src} className="md:h-40 w-full object-cover" />
               </button>
             ))}
           </div>
@@ -148,7 +148,7 @@ Could you please provide more details?`;
             <p className="eyebrow">
               N° {String(product.id).padStart(2, "0")} · {product.material}
             </p>
-            <h1 className="display mt-4 text-5xl leading-none md:text-6xl">
+            <h1 className="display mt-4 text-2xl leading-none md:text-4xl">
               {product.name}
             </h1>
             <p className="mt-4 italic text-muted-foreground">

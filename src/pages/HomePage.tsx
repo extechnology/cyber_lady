@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { useRef, useState, useEffect, useCallback } from "react";
 
-
 import { useHeroImage } from "../features/home/hooks/useHeroImage";
 import { useProducts } from "../features/product/hooks/useProducts";
 import useSectionImage from "../features/home/hooks/useSectionImage";
@@ -10,7 +9,6 @@ import useSectionImage from "../features/home/hooks/useSectionImage";
 import { Reveal } from "../components/site/Reveal";
 import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { ProductCard } from "../components/site/ProductCard";
-
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -24,43 +22,51 @@ export default function Home() {
   const { data: heroImage } = useHeroImage();
   const { data: sectionImage } = useSectionImage();
 
-  console.log(heroImage,"hero image");
-  console.log(sectionImage,"section image");
-
-  const sectionImg = sectionImage?.map((item) => item.image )
-
-  // API Data
+  // FIX: Derive safely — never undefined at render time
+  const sectionImg = sectionImage?.[0]?.image ?? null;
+  const total = heroImage?.length ?? 0;
   const { data: apiProducts } = useProducts();
 
   // Carousel state
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [dir, setDir] = useState(1);
-  const total = heroImage?.length;
 
+  // FIX: Guard go() so modulo is never called on 0 or undefined
   const go = useCallback(
     (next: number, direction: number) => {
+      if (!total) return;
       setDir(direction);
-      setActive((next + total) % total);
+      setActive(((next % total) + total) % total);
     },
     [total],
   );
 
+  // FIX: Skip interval entirely when images aren't loaded yet
   useEffect(() => {
-    if (paused) return;
+    if (paused || total === 0) return;
     const id = setInterval(() => go(active + 1, 1), 4000);
     return () => clearInterval(id);
-  }, [active, paused, go]);
+  }, [active, paused, go, total]);
+
+  // Reset active index if heroImage reloads with fewer slides
+  useEffect(() => {
+    if (total > 0 && active >= total) {
+      setActive(0);
+    }
+  }, [total, active]);
 
   const featured = apiProducts
     ? apiProducts.filter((p) => p.is_featured).slice(0, 3)
     : [];
 
+  // FIX: reference apiProducts (was missing from original — keep your existing hook)
+
   return (
     <>
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-6 pb-20  md:grid-cols-12 md:px-12 md:pt-5">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-6 pb-20 md:grid-cols-12 md:px-12 md:pt-5">
           <motion.div
             style={{ y, opacity }}
             className="md:col-span-6 content-center order-2 md:order-1"
@@ -79,9 +85,7 @@ export default function Home() {
             >
               Elegance Starts from the Ground Up,
               <br />
-              <span className="italic text-accent">
-                Wear It Beautifully.{" "}
-              </span>{" "}
+              <span className="italic text-accent">Wear It Beautifully. </span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -118,134 +122,121 @@ export default function Home() {
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="md:col-span-6 order-1 md:order-2"
           >
-            <div
-              className="
-group
-relative
-aspect-[1.1]
-overflow-hidden
-rounded-md
-bg-stone-950
-ring-1
-ring-white/10
-"
-              onMouseEnter={() => setPaused(true)}
-              onMouseLeave={() => setPaused(false)}
-            >
-              {/* Slides */}
-              <AnimatePresence mode="wait" initial={false} custom={dir}>
-                <motion.div
-                  key={active}
-                  custom={dir}
-                  className="absolute inset-0 overflow-hidden"
-                  variants={{
-                    enter: (d: number) => ({
-                      x: d > 0 ? 120 : -120,
-                      opacity: 0,
-                      scale: 1.15,
-                      rotate: d > 0 ? 2 : -2,
-                      filter: "brightness(0.75)",
-                    }),
-                    center: {
-                      x: 0,
-                      opacity: 1,
-                      scale: 1,
-                      rotate: 0,
-                      filter: "brightness(1)",
-                    },
-                    exit: (d: number) => ({
-                      x: d > 0 ? -120 : 120,
-                      opacity: 0,
-                      scale: 0.92,
-                      rotate: d > 0 ? -2 : 2,
-                      filter: "brightness(0.75)",
-                    }),
-                  }}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    duration: 1.1,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  <motion.img
-                    src={heroImage[active]?.image}
-                    alt={heroImage[active]?.alt_text}
-                    width={1600}
-                    height={1600}
-                    className="absolute inset-0 h-full w-full object-cover will-change-transform"
-                    animate={{
-                      scale: [1.08, 1.16],
-                      x: [0, -12],
-                      y: [0, -8],
+            {/* FIX: Render carousel only when images are available */}
+            {total > 0 && heroImage ? (
+              <div
+                className="group relative aspect-[1.1] overflow-hidden rounded-md bg-stone-950 ring-1 ring-white/10"
+                onMouseEnter={() => setPaused(true)}
+                onMouseLeave={() => setPaused(false)}
+              >
+                {/* Slides */}
+                <AnimatePresence mode="wait" initial={false} custom={dir}>
+                  <motion.div
+                    key={active}
+                    custom={dir}
+                    className="absolute inset-0 overflow-hidden"
+                    variants={{
+                      enter: (d: number) => ({
+                        x: d > 0 ? 120 : -120,
+                        opacity: 0,
+                        scale: 1.15,
+                        rotate: d > 0 ? 2 : -2,
+                        filter: "brightness(0.75)",
+                      }),
+                      center: {
+                        x: 0,
+                        opacity: 1,
+                        scale: 1,
+                        rotate: 0,
+                        filter: "brightness(1)",
+                      },
+                      exit: (d: number) => ({
+                        x: d > 0 ? -120 : 120,
+                        opacity: 0,
+                        scale: 0.92,
+                        rotate: d > 0 ? -2 : 2,
+                        filter: "brightness(0.75)",
+                      }),
                     }}
-                    transition={{
-                      duration: 8,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      ease: "linear",
-                    }}
-                  />
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Gradient overlay */}
-              {/* <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-ink/70 via-transparent to-transparent" /> */}
-
-              {/* Progress bar */}
-              <div className="absolute top-0 left-0 right-0 flex gap-1 p-3">
-                {heroImage?.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => go(i, i > active ? 1 : -1)}
-                    className="h-0.5 flex-1 overflow-hidden bg-cream/30"
-                    aria-label={`Go to slide ${i + 1}`}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    {i === active && (
-                      <motion.span
-                        className="block h-full bg-cream"
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: paused ? undefined : 1 }}
-                        transition={{ duration: 4, ease: "linear" }}
-                        style={{ transformOrigin: "left" }}
-                      />
-                    )}
-                    {i < active && <span className="block h-full bg-cream" />}
-                  </button>
-                ))}
-              </div>
+                    <motion.img
+                      // FIX: Safe access — guarded by `total > 0 && heroImage` above
+                      src={heroImage[active].image}
+                      alt={heroImage[active].alt_text ?? `Slide ${active + 1}`}
+                      width={1600}
+                      height={1600}
+                      className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                      animate={{ scale: [1.08, 1.16], x: [0, -12], y: [0, -8] }}
+                      transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "linear",
+                      }}
+                    />
+                  </motion.div>
+                </AnimatePresence>
 
-              {/* Bottom info bar */}
-              <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between px-6 pb-6">
-                {/* Prev / Next */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => go(active - 1, -1)}
-                    className="flex h-10 w-10 items-center justify-center border border-cream/30 text-cream backdrop-blur-sm transition-colors hover:border-cream hover:bg-cream/10"
-                    aria-label="Previous slide"
-                  >
-                    ←
-                  </button>
-                  <button
-                    onClick={() => go(active + 1, 1)}
-                    className="flex h-10 w-10 items-center justify-center border border-cream/30 text-cream backdrop-blur-sm transition-colors hover:border-cream hover:bg-cream/10"
-                    aria-label="Next slide"
-                  >
-                    →
-                  </button>
+                {/* Progress bar */}
+                <div className="absolute top-0 left-0 right-0 flex gap-1 p-3">
+                  {heroImage.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => go(i, i > active ? 1 : -1)}
+                      className="h-0.5 flex-1 overflow-hidden bg-cream/30"
+                      aria-label={`Go to slide ${i + 1}`}
+                    >
+                      {i === active && (
+                        <motion.span
+                          className="block h-full bg-cream"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: paused ? undefined : 1 }}
+                          transition={{ duration: 4, ease: "linear" }}
+                          style={{ transformOrigin: "left" }}
+                        />
+                      )}
+                      {i < active && <span className="block h-full bg-cream" />}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Bottom info bar */}
+                <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between px-6 pb-6">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => go(active - 1, -1)}
+                      className="flex h-10 w-10 items-center justify-center border border-cream/30 text-cream backdrop-blur-sm transition-colors hover:border-cream hover:bg-cream/10"
+                      aria-label="Previous slide"
+                    >
+                      ←
+                    </button>
+                    <button
+                      onClick={() => go(active + 1, 1)}
+                      className="flex h-10 w-10 items-center justify-center border border-cream/30 text-cream backdrop-blur-sm transition-colors hover:border-cream hover:bg-cream/10"
+                      aria-label="Next slide"
+                    >
+                      →
+                    </button>
+                  </div>
+                </div>
+
+                {/* Slide counter badge */}
+                <div className="absolute top-5 right-5 flex h-10 w-10 items-center justify-center border border-cream/30 bg-ink/40 text-[11px] tabular-nums tracking-widest text-cream backdrop-blur-sm">
+                  {String(active + 1).padStart(2, "0")}
                 </div>
               </div>
-
-              {/* Slide counter badge */}
-              <div className="absolute top-5 right-5 flex h-10 w-10 items-center justify-center border border-cream/30 bg-ink/40 text-[11px] tabular-nums tracking-widest text-cream backdrop-blur-sm">
-                {String(active + 1).padStart(2, "0")}
-              </div>
-            </div>
+            ) : (
+              // FIX: Skeleton placeholder while images load
+              <div className="aspect-[1.1] animate-pulse rounded-md bg-stone-800 ring-1 ring-white/10" />
+            )}
           </motion.div>
         </div>
 
-        {/* marquee */}
+        {/* Marquee */}
         <div className="overflow-hidden border-y border-border bg-cream py-6">
           <div className="marquee-track flex w-max gap-16 whitespace-nowrap text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
             {Array.from({ length: 2 }).map((_, k) => (
@@ -306,19 +297,22 @@ ring-white/10
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 px-6 py-28 md:grid-cols-12 md:gap-20 md:px-12 md:py-40">
           <Reveal className="md:col-span-7">
-            <div className=" overflow-hidden bg-stone">
-              <motion.img
-                src={sectionImg}
-                alt="Woman walking in Cyber Lady nude strap sandals on marble"
-                loading="lazy"
-                width={1280}
-                height={1500}
-                className="h-full w-full object-contain"
-                initial={{ scale: 1.1 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-              />
+            <div className="overflow-hidden bg-stone">
+              {/* FIX: Render single image (first), not a mapped list */}
+              {sectionImg && (
+                <motion.img
+                  src={sectionImg}
+                  alt="Woman walking in Cyber Lady nude strap sandals on marble"
+                  loading="lazy"
+                  width={1280}
+                  height={1500}
+                  className="h-full w-full object-contain"
+                  initial={{ scale: 1.1 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+                />
+              )}
             </div>
           </Reveal>
 
@@ -340,10 +334,10 @@ ring-white/10
             <Reveal delay={0.2}>
               <dl className="mt-12 grid grid-cols-2 gap-y-8 border-t border-border pt-8">
                 {[
-                  ["1000+", "Unique Articles "],
-                  ["15+", "Color Patterns "],
+                  ["1000+", "Unique Articles"],
+                  ["15+", "Color Patterns"],
                   ["25Lk+", "Pair Deliver"],
-                  ["500+", "Trusted Distributors  "],
+                  ["500+", "Trusted Distributors"],
                 ].map(([k, v]) => (
                   <div key={k}>
                     <dt className="display text-3xl text-ink">{k}</dt>
@@ -361,7 +355,6 @@ ring-white/10
       {/* CTA */}
       <section className="mx-auto max-w-[1400px] px-6 py-10 text-center md:px-12 md:py-20">
         <Reveal>
-          {/* <p className="eyebrow">Chapter 03 — Yours</p> */}
           <h2 className="display mx-auto mt-6 max-w-4xl text-5xl leading-none md:text-7xl">
             Choose <span className="italic text-accent">one pair</span>
             <br />

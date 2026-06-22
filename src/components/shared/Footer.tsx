@@ -83,7 +83,7 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Cyber Lady</p>
           <p>Developed by <Link to="https://www.extechnology.in/">extechnology.in</Link></p>
           <p className="text-xs tracking-[.1] ">
-            <Link to="/privacy-policy">Privacy Policy</Link> · <Link to="/terms-and-conditions">Terms & Conditions</Link> · <Link to="/refund-policy">Refund Policy</Link> · <Link to="/shipping-policy">Shipping Policy</Link>
+            <Link to="/privacy-policy">Privacy Policy</Link> · <Link to="/terms-and-conditions">Terms & Conditions</Link>
           </p>
         </div>
       </div>

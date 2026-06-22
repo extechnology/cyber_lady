@@ -5,23 +5,36 @@ import { FiChevronDown } from "react-icons/fi";
 import { useProducts } from "../features/product/hooks/useProducts";
 import type { Product } from "../features/product/types/types.product";
 
+
 import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { Reveal } from "../components/site/Reveal";
 import { ProductCard } from "../components/site/ProductCard";
 
-const CATEGORIES = ["All", "Ladies", "Girls", "Gents & Boys", "Kids"] as const;
-const TYPES = ["All", "Sandals", "Flip Flop", "Slippers", "Shoes"] as const;
+import useCategories from "../features/category/hooks/useCategories";
+import useTypes from "../features/product_types/hooks/useTypes";
+
+// const CATEGORIES = ["All", "Ladies", "Girls", "Gents & Boys", "Kids"] as const;
+// const TYPES = ["All", "Sandals", "Flip Flop", "Slippers", "Shoes"] as const;
 const SORTS = ["Featured", "Price · low", "Price · high"] as const;
 
-type Category = (typeof CATEGORIES)[number];
-type Type = (typeof TYPES)[number];
+// type Category = (typeof CATEGORIES)[number];
+// type Type = (typeof TYPES)[number];
 type Sort = (typeof SORTS)[number];
 
 export default function ProductsPage() {
-  const [cat, setCat] = useState<Category>("All");
-  const [type, setType] = useState<Type>("All");
+  const [cat, setCat] = useState<string>("All");
+  const [type, setType] = useState<string>("All");
   const [sort, setSort] = useState<Sort>("Featured");
   const { data: apiProducts, isLoading } = useProducts();
+
+  const { data: categories } = useCategories();
+  const { data: types } = useTypes();
+
+  console.log("categories",categories);
+  console.log("types",types);
+
+  const CATEGORIES = categories?.map((category) => category.name) || [];
+  const TYPES = types?.map((type) => type.name) || [];
 
   const filtered = useMemo(() => {
     let list: Product[] = apiProducts || [];
@@ -31,9 +44,13 @@ export default function ProductsPage() {
         (type === "All" || p.product_type?.name === type),
     );
     if (sort === "Price · low")
-      list = [...list].sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      list = [...list].sort(
+        (a, b) => parseFloat(a.price) - parseFloat(b.price),
+      );
     if (sort === "Price · high")
-      list = [...list].sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      list = [...list].sort(
+        (a, b) => parseFloat(b.price) - parseFloat(a.price),
+      );
     return list;
   }, [apiProducts, cat, type, sort]);
 
@@ -75,9 +92,13 @@ export default function ProductsPage() {
           </div>
 
           <div className="flex items-center justify-between border-t border-border/50 pt-4 md:border-t-0 md:pt-0 md:justify-end">
-            <span className="w-[85px] shrink-0 text-muted-foreground md:hidden">Sort</span>
+            <span className="w-[85px] shrink-0 text-muted-foreground md:hidden">
+              Sort
+            </span>
             <div className="flex w-full items-center gap-3 md:w-auto">
-              <span className="hidden shrink-0 text-muted-foreground md:inline">Sort</span>
+              <span className="hidden shrink-0 text-muted-foreground md:inline">
+                Sort
+              </span>
               <div className="relative w-full md:w-auto">
                 <select
                   value={sort}
@@ -158,7 +179,9 @@ function FilterRow<T extends string>({
 }) {
   return (
     <div className="flex w-full items-center">
-      <span className="w-[85px] shrink-0 text-muted-foreground md:w-auto md:pr-4">{label}</span>
+      <span className="w-[85px] shrink-0 text-muted-foreground md:w-auto md:pr-4">
+        {label}
+      </span>
       <div className="flex flex-1 items-center gap-x-5 overflow-x-auto pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
         {options.map((o) => {
           const active = o === value;
