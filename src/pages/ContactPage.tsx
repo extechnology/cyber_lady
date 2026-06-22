@@ -3,22 +3,50 @@ import { motion } from "motion/react";
 
 import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { Reveal } from "../components/site/Reveal";
+import { useContact } from "../features/contact/hooks/useContact";
 
+interface FieldProps {
+  label: string;
+  name: string;
+  value: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
+}
 
 export default function Contact() {
-  const [sent, setSent] = useState(false);
-  // const [formData,setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  //   subject: "",
-  //   message: "",
-  // })
-  // const handleInputChange = (e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // }
+  const { mutate, isPending, isSuccess } = useContact();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    mutate(formData, {
+      onSuccess: () => {
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      },
+    });
+  };
 
   return (
     <>
@@ -75,36 +103,57 @@ export default function Contact() {
 
         <div className="md:col-span-7">
           <Reveal delay={0.1}>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSent(true);
-              }}
-              className="space-y-10"
-            >
-              <Field label="Your name" name="name"  />
-              <Field label="Email" name="email" type="email" />
+            <form onSubmit={handleSubmit} className="space-y-10">
+              <Field
+                label="Your name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+              />
+
+              <Field
+                label="Email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+
               <Field
                 label="Subject"
                 name="subject"
                 placeholder="Styling, repair, bespoke…"
+                value={formData.subject}
+                onChange={handleInputChange}
               />
-              <Field label="Message" name="message" textarea />
+
+              <Field
+                label="Message"
+                name="message"
+                textarea
+                value={formData.message}
+                onChange={handleInputChange}
+              />
 
               <div className="flex flex-col items-start gap-6 pt-2">
                 <button
                   type="submit"
-                  disabled={sent}
-                  className="group inline-flex items-center gap-3 bg-ink px-8 py-5 text-[11px] uppercase tracking-[0.3em] text-cream transition-colors hover:bg-accent disabled:opacity-50"
+                  disabled={isPending}
+                  className="group inline-flex items-center gap-3 bg-ink px-8 py-5 text-[11px] uppercase tracking-[0.3em] text-cream transition-all duration-300 hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {sent ? "Message sent ✓" : "Send message"}
-                  {!sent && (
-                    <span className="transition-transform group-hover:translate-x-1">
+                  {isPending
+                    ? "Sending..."
+                    : isSuccess
+                      ? "Message Sent ✓"
+                      : "Send Message"}
+
+                  {!isPending && !isSuccess && (
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">
                       →
                     </span>
                   )}
                 </button>
-                {sent && (
+                {isSuccess && (
                   <motion.p
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -135,29 +184,41 @@ function Block({ title, lines }: { title: string; lines: string[] }) {
   );
 }
 
-function Field({
-  label,
-  name,
-  type = "text",
-  textarea,
-  placeholder,
-}: {
+interface FieldProps {
   label: string;
   name: string;
+  value: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
   type?: string;
   textarea?: boolean;
   placeholder?: string;
-}) {
+}
+
+function Field({
+  label,
+  name,
+  value,
+  onChange,
+  type = "text",
+  textarea,
+  placeholder,
+}: FieldProps) {
   const common =
-    "w-full border-0 border-b border-border bg-transparent pb-3 pt-2 text-base placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none transition-colors";
+    "w-full border-0 border-b border-border bg-transparent pb-3 pt-2 text-base placeholder:text-muted-foreground/60 transition-colors focus:border-accent focus:outline-none";
+
   return (
     <label className="block">
       <span className="eyebrow">{label}</span>
+
       <div className="mt-3">
         {textarea ? (
           <textarea
             name={name}
-            rows={4}
+            rows={5}
+            value={value}
+            onChange={onChange}
             placeholder={placeholder}
             className={common}
             required
@@ -166,6 +227,8 @@ function Field({
           <input
             name={name}
             type={type}
+            value={value}
+            onChange={onChange}
             placeholder={placeholder}
             className={common}
             required

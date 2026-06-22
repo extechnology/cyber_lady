@@ -2,39 +2,15 @@ import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { useRef, useState, useEffect, useCallback } from "react";
 
-import heroSandal from "../assets/hero-sandal.jpeg";
-import lifestyle1 from "../assets/lifestyle-1.jpeg";
-import sandal1 from "../assets/sandal-1.jpeg";
-import sandal2 from "../assets/sandal-2.jpeg";
-import sandal3 from "../assets/sandal-3.jpeg";
-import sandal4 from "../assets/sandal-4.jpeg";
-import sandal5 from "../assets/sandal-5.jpeg";
-import sandal6 from "../assets/sandal-6.jpeg";
 
-import { useProducts } from "../features/product/hooks/useProducts";
 import { useHeroImage } from "../features/home/hooks/useHeroImage";
+import { useProducts } from "../features/product/hooks/useProducts";
 import useSectionImage from "../features/home/hooks/useSectionImage";
 
-import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { Reveal } from "../components/site/Reveal";
+import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { ProductCard } from "../components/site/ProductCard";
 
-
-
-const CAROUSEL_SLIDES = [
-  {
-    src: heroSandal,
-    label: "The Nude Strap",
-    no: "01",
-    sub: "110mm · Calfskin",
-  },
-  { src: sandal1, label: "Noir Strap 110", no: "02", sub: "Onyx · Leather" },
-  { src: sandal2, label: "Caramel Slide", no: "03", sub: "Caramel · Leather" },
-  { src: sandal3, label: "Ivory Block 65", no: "04", sub: "Ivory · Leather" },
-  { src: sandal4, label: "Rosa Kitten 55", no: "05", sub: "Blush · Leather" },
-  { src: sandal5, label: "Luna Gold 60", no: "06", sub: "Gold · Metallic" },
-  { src: sandal6, label: "Cocoa Weave", no: "07", sub: "Cocoa · Woven" },
-];
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -48,8 +24,10 @@ export default function Home() {
   const { data: heroImage } = useHeroImage();
   const { data: sectionImage } = useSectionImage();
 
-  console.log(heroImage);
-  console.log(sectionImage);
+  console.log(heroImage,"hero image");
+  console.log(sectionImage,"section image");
+
+  const sectionImg = sectionImage?.map((item) => item.image )
 
   // API Data
   const { data: apiProducts } = useProducts();
@@ -58,7 +36,7 @@ export default function Home() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [dir, setDir] = useState(1);
-  const total = CAROUSEL_SLIDES.length;
+  const total = heroImage?.length;
 
   const go = useCallback(
     (next: number, direction: number) => {
@@ -74,7 +52,9 @@ export default function Home() {
     return () => clearInterval(id);
   }, [active, paused, go]);
 
-  const featured = apiProducts ? apiProducts.filter(p => p.is_featured).slice(0, 3) : [];
+  const featured = apiProducts
+    ? apiProducts.filter((p) => p.is_featured).slice(0, 3)
+    : [];
 
   return (
     <>
@@ -190,8 +170,8 @@ ring-white/10
                   }}
                 >
                   <motion.img
-                    src={CAROUSEL_SLIDES[active].src}
-                    alt={CAROUSEL_SLIDES[active].label}
+                    src={heroImage[active]?.image}
+                    alt={heroImage[active]?.alt_text}
                     width={1600}
                     height={1600}
                     className="absolute inset-0 h-full w-full object-cover will-change-transform"
@@ -215,7 +195,7 @@ ring-white/10
 
               {/* Progress bar */}
               <div className="absolute top-0 left-0 right-0 flex gap-1 p-3">
-                {CAROUSEL_SLIDES.map((_, i) => (
+                {heroImage?.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => go(i, i > active ? 1 : -1)}
@@ -326,14 +306,14 @@ ring-white/10
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 px-6 py-28 md:grid-cols-12 md:gap-20 md:px-12 md:py-40">
           <Reveal className="md:col-span-7">
-            <div className="aspect-square overflow-hidden bg-stone">
+            <div className=" overflow-hidden bg-stone">
               <motion.img
-                src={lifestyle1}
+                src={sectionImg}
                 alt="Woman walking in Cyber Lady nude strap sandals on marble"
                 loading="lazy"
                 width={1280}
-                height={1600}
-                className="h-full w-full object-cover"
+                height={1500}
+                className="h-full w-full object-contain"
                 initial={{ scale: 1.1 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}

@@ -53,7 +53,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-6 text-[13px] uppercase tracking-[0.2em] z-50 relative">
-          <button className="link-underline hidden sm:inline">Search</button>
+          {/* <button className="link-underline hidden sm:inline">Search</button> */}
           
           {/* Mobile Menu Toggle */}
           <button 
