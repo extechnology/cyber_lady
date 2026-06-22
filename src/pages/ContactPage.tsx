@@ -7,6 +7,18 @@ import { Reveal } from "../components/site/Reveal";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  // const [formData,setFormData] = useState({
+  //   name: "",
+  //   email: "",
+  //   subject: "",
+  //   message: "",
+  // })
+  // const handleInputChange = (e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // }
 
   return (
     <>
@@ -70,7 +82,7 @@ export default function Contact() {
               }}
               className="space-y-10"
             >
-              <Field label="Your name" name="name" />
+              <Field label="Your name" name="name"  />
               <Field label="Email" name="email" type="email" />
               <Field
                 label="Subject"

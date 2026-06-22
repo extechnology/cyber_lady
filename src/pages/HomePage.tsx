@@ -10,7 +10,9 @@ import sandal3 from "../assets/sandal-3.jpeg";
 import sandal4 from "../assets/sandal-4.jpeg";
 import sandal5 from "../assets/sandal-5.jpeg";
 import sandal6 from "../assets/sandal-6.jpeg";
-import { products } from "../lib/products";
+
+import { useProducts } from "../features/product/hooks/useProducts";
+
 import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { Reveal } from "../components/site/Reveal";
 import { ProductCard } from "../components/site/ProductCard";
@@ -39,6 +41,9 @@ export default function Home() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+  // API Data
+  const { data: apiProducts } = useProducts();
+
   // Carousel state
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -59,7 +64,7 @@ export default function Home() {
     return () => clearInterval(id);
   }, [active, paused, go]);
 
-  const featured = products.slice(0, 3);
+  const featured = apiProducts ? apiProducts.filter(p => p.is_featured).slice(0, 3) : [];
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
-import type { Product } from "../../lib/products";
+import type { Product } from "../../features/product/types/types.product";
 
 export function ProductCard({
   product,
@@ -9,6 +9,9 @@ export function ProductCard({
   product: Product;
   index?: number;
 }) {
+  const image = product.colors?.[0]?.images?.[0]?.image || "";
+  const colorName = product.colors?.[0]?.name || "";
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 32 }}
@@ -23,16 +26,18 @@ export function ProductCard({
     >
       <Link to={`/product/${product.id}`} className="block">
         <div className="relative overflow-hidden bg-stone aspect-4/5">
-          <motion.img
-            src={product.image}
-            alt={product.name}
-            loading="lazy"
-            width={1024}
-            height={1280}
-            className="h-full w-full object-cover"
-            whileHover={{ scale: 1.04 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          />
+          {image && (
+            <motion.img
+              src={image}
+              alt={product.name}
+              loading="lazy"
+              width={1024}
+              height={1280}
+              className="h-full w-full object-cover"
+              whileHover={{ scale: 1.04 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            />
+          )}
           <div className="absolute inset-x-0 bottom-0 translate-y-full bg-ink/90 px-5 py-3 text-center text-[11px] uppercase tracking-[0.25em] text-cream transition-transform duration-500 group-hover:translate-y-0">
             View piece →
           </div>
@@ -41,10 +46,10 @@ export function ProductCard({
           <div>
             <h3 className="display text-lg leading-tight">{product.name}</h3>
             <p className="mt-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {product.color} · {product.category}
+              {colorName} · {product.category?.name}
             </p>
           </div>
-          <p className="text-sm tabular-nums">₹{product.price}</p>
+          <p className="text-sm tabular-nums">₹{parseFloat(product.price).toLocaleString('en-IN')}</p>
         </div>
       </Link>
     </motion.article>

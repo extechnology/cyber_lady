@@ -2,7 +2,9 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { FiChevronDown } from "react-icons/fi";
 
-import { products, type Product } from "../lib/products";
+import { useProducts } from "../features/product/hooks/useProducts";
+import type { Product } from "../features/product/types/types.product";
+
 import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { Reveal } from "../components/site/Reveal";
 import { ProductCard } from "../components/site/ProductCard";
@@ -19,19 +21,21 @@ export default function ProductsPage() {
   const [cat, setCat] = useState<Category>("All");
   const [type, setType] = useState<Type>("All");
   const [sort, setSort] = useState<Sort>("Featured");
+  const { data: apiProducts, isLoading } = useProducts();
 
   const filtered = useMemo(() => {
-    let list: Product[] = products.filter(
+    let list: Product[] = apiProducts || [];
+    list = list.filter(
       (p) =>
-        (cat === "All" || p.type === cat) &&
-        (type === "All" || p.category === type),
+        (cat === "All" || p.category?.name === cat) &&
+        (type === "All" || p.product_type?.name === type),
     );
     if (sort === "Price · low")
-      list = [...list].sort((a, b) => a.price - b.price);
+      list = [...list].sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
     if (sort === "Price · high")
-      list = [...list].sort((a, b) => b.price - a.price);
+      list = [...list].sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
     return list;
-  }, [cat, type, sort]);
+  }, [apiProducts, cat, type, sort]);
 
   return (
     <>
@@ -98,7 +102,17 @@ export default function ProductsPage() {
       {/* Grid */}
       <section className="mx-auto max-w-[1400px] px-6 py-20 md:px-12 md:py-28">
         <AnimatePresence mode="popLayout">
-          {filtered.length === 0 ? (
+          {isLoading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="py-32 text-center"
+            >
+              <p className="display text-3xl">Loading collection...</p>
+            </motion.div>
+          ) : filtered.length === 0 ? (
             <motion.div
               key="empty"
               initial={{ opacity: 0 }}
