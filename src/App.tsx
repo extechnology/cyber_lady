@@ -11,6 +11,8 @@ const Home = lazy(() => import("./pages/HomePage"));
 const Products = lazy(() => import("./pages/ProductsPage"));
 const Product = lazy(() => import("./pages/DetailPage"));
 const Contact = lazy(() => import("./pages/ContactPage"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<Product />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         </Routes>
       </Suspense>
       <Footer />

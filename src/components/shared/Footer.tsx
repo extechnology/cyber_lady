@@ -82,7 +82,9 @@ export function Footer() {
         <div className="mt-6 flex flex-col items-start justify-between gap-2 text-xs text-muted-foreground md:flex-row md:items-center">
           <p>© {new Date().getFullYear()} Cyber Lady</p>
           <p>Developed by <Link to="https://www.extechnology.in/">extechnology.in</Link></p>
-          <p className="text-xs tracking-[.1] ">Privacy Policy · Terms & Conditions · Refund Policy · Shipping Policy</p>
+          <p className="text-xs tracking-[.1] ">
+            <Link to="/privacy-policy">Privacy Policy</Link> · <Link to="/terms-and-conditions">Terms & Conditions</Link> · <Link to="/refund-policy">Refund Policy</Link> · <Link to="/shipping-policy">Shipping Policy</Link>
+          </p>
         </div>
       </div>
     </footer>
