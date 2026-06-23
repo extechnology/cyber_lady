@@ -109,7 +109,7 @@ export function Header() {
               transition={{ delay: 0.6, duration: 0.4 }}
               className="absolute bottom-12 flex gap-6 text-[13px] uppercase tracking-[0.2em] text-muted-foreground"
             >
-              <button className="hover:text-foreground transition-colors">Search</button>
+              {/* <button className="hover:text-foreground transition-colors">Search</button> */}
             </motion.div>
           </motion.div>
         )}

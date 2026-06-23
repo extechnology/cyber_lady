@@ -95,7 +95,7 @@ Could you please provide more details?`;
 
   return (
     <>
-      <section className="mx-auto max-w-[1400px] px-6 pt-10 md:px-12 md:pt-14">
+      <section className="mx-auto max-w-[1400px] px-6 pt-4 md:px-12 md:pt-14">
         <Breadcrumbs
           items={[
             { label: "Cyber Lady", to: "/" },
@@ -106,7 +106,7 @@ Could you please provide more details?`;
         />
       </section>
 
-      <section className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 px-6 py-12 md:grid-cols-12 md:gap-16 md:px-12 md:py-20">
+      <section className="mx-auto grid max-w-[1400px] grid-cols-1 gap-6 px-6 pt-4 md:grid-cols-12 md:gap-16 md:px-12 md:py-20">
         <div className="md:col-span-7">
           <motion.div
             initial={{ opacity: 0, scale: 1.04 }}
@@ -120,7 +120,7 @@ Could you please provide more details?`;
                 alt={product.name}
                 // width={1024}
                 // height={1280}
-                className="h-full w-full object-contain"
+                className="h-full w-full aspect-square object-contain"
               />
             )}
           </motion.div>
@@ -143,20 +143,54 @@ Could you please provide more details?`;
           </div>
         </div>
 
-        <div className="md:col-span-5 md:pt-8">
+        <div className="md:col-span-5 md:pt-8 pt-0">
           <Reveal>
             <p className="eyebrow">
               N° {String(product.id).padStart(2, "0")} · {product.material}
             </p>
-            <h1 className="display mt-4 text-2xl leading-none md:text-4xl">
+            <h1 className="display md:mt-4 mt-2 text-2xl leading-none md:text-4xl">
               {product.name}
             </h1>
-            <p className="mt-4 italic text-muted-foreground">
+            <p className="md:mt-4 mt-2 italic text-muted-foreground">
               {product.description?.split("\n")[0]}
             </p>
-            <p className="mt-8 text-2xl tabular-nums">
+            <p className="md:mt-8 mt-2 text-2xl tabular-nums">
               ₹{parseFloat(product.price).toLocaleString("en-IN")}
             </p>
+          </Reveal>
+
+          <Reveal>
+            <div className="md:mt-8 mt-5 md:hidden border-t border-border md:pt-8 pt-5">
+              <div className="flex items-center justify-between">
+                <p className="eyebrow">Colour</p>
+                <span className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
+                  {activeColor?.name}
+                </span>
+              </div>
+              <div className="md:mt-5 mt-4 flex flex-wrap gap-4">
+                {product.colors?.map((c) => {
+                  const active = activeColor?.name === c.name;
+                  const bg = c.color_code || "#CCCCCC";
+                  return (
+                    <button
+                      key={c.id}
+                      title={c.name}
+                      onClick={() => {
+                        setSelectedColor(c.name);
+                        setSelectedImage(c.images?.[0]?.image || "");
+                        setSize(null);
+                      }}
+                      style={{ backgroundColor: bg }}
+                      className={`h-10 w-10 rounded-full border transition-all ${
+                        active
+                          ? "ring-2 ring-ink ring-offset-2 border-transparent"
+                          : "border-border hover:ring-1 hover:ring-ink"
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           </Reveal>
 
           <Reveal delay={0.1}>
@@ -190,7 +224,7 @@ Could you please provide more details?`;
               </div>
             </div>
 
-            <div className="mt-8 border-t border-border pt-8">
+            <div className="mt-8 hidden border-t border-border pt-8">
               <div className="flex items-center justify-between">
                 <p className="eyebrow">Colour</p>
                 <span className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
