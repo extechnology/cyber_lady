@@ -18,6 +18,8 @@ export default function DetailPage() {
 
   const defaultColor = product?.colors?.[0];
 
+  console.log("Product Details: ", product);
+
   const [selectedColor, setSelectedColor] = useState(defaultColor?.name || "");
 
   const activeColor =
@@ -145,9 +147,9 @@ Could you please provide more details?`;
 
         <div className="md:col-span-5 md:pt-8 pt-0">
           <Reveal>
-            <p className="eyebrow">
+            {/* <p className="eyebrow">
               N° {String(product.id).padStart(2, "0")} · {product.material}
-            </p>
+            </p> */}
             <h1 className="display md:mt-4 mt-2 text-2xl leading-none md:text-4xl">
               {product.name}
             </h1>
@@ -211,6 +213,7 @@ Could you please provide more details?`;
                     <button
                       key={s.id}
                       onClick={() => setSize(s.name)}
+                      title={`Size ${s.name}`}
                       className={`border py-3 text-sm tabular-nums transition-colors ${
                         active
                           ? "border-ink bg-ink text-cream"
@@ -224,7 +227,7 @@ Could you please provide more details?`;
               </div>
             </div>
 
-            <div className="mt-8 hidden border-t border-border pt-8">
+            <div className="mt-8 hidden md:block border-t border-border pt-8">
               <div className="flex items-center justify-between">
                 <p className="eyebrow">Colour</p>
                 <span className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
@@ -281,7 +284,7 @@ Could you please provide more details?`;
       </section>
 
       {/* Related */}
-      <section className="mx-auto max-w-[1400px] px-6 py-28 md:px-12 md:py-32">
+      <section className="mx-auto max-w-[1400px] px-4 py-12 md:px-12 md:py-32">
         <Reveal>
           <div className="mb-12 flex items-end justify-between">
             <div>
@@ -298,7 +301,7 @@ Could you please provide more details?`;
             </Link>
           </div>
         </Reveal>
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-16">
+        <div className="grid grid-cols-2 md:gap-10 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-16">
           {related.map((p, i) => (
             <ProductCard key={p.id} product={p} index={i} />
           ))}

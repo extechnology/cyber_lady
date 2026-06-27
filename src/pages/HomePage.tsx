@@ -66,10 +66,10 @@ export default function Home() {
     <>
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-6 pb-20 md:grid-cols-12 md:px-12 md:pt-5">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 md:gap-10 gap-5 px-1 pb-20 md:grid-cols-12 md:px-12 md:pt-5">
           <motion.div
             style={{ y, opacity }}
-            className="md:col-span-6 content-center order-2 md:order-1"
+            className="md:col-span-6 content-center order-2 md:order-1 px-4"
           >
             <Breadcrumbs
               items={[
@@ -81,7 +81,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-              className="display mt-10 text-3xl leading-[0.95] tracking-[-0.04em] md:text-5xl"
+              className="display md:mt-8 mt-4 text-3xl leading-[0.95] tracking-[-0.04em] md:text-5xl"
             >
               Elegance Starts from the Ground Up,
               <br />
@@ -91,7 +91,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground"
+              className="md:mt-8 mt-4 max-w-md text-base leading-relaxed text-muted-foreground"
             >
               Stylish, comfortable, and crafted for every occasion, our ladies'
               footwear collection adds elegance and confidence to every step.
@@ -101,7 +101,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.6 }}
-              className="mt-10 flex items-center gap-6"
+              className="md:mt-8 mt-4 flex items-center gap-6"
             >
               <Link
                 to="/products"
@@ -125,7 +125,7 @@ export default function Home() {
             {/* FIX: Render carousel only when images are available */}
             {total > 0 && heroImage ? (
               <div
-                className="group relative aspect-[1.1] overflow-hidden rounded-md bg-stone-950 ring-1 ring-white/10"
+                className="group relative h-screen md:h-auto md:aspect-[1.1] overflow-hidden rounded-md bg-stone-950 ring-1 ring-white/10"
                 onMouseEnter={() => setPaused(true)}
                 onMouseLeave={() => setPaused(false)}
               >
@@ -267,8 +267,8 @@ export default function Home() {
       </section>
 
       {/* FEATURED */}
-      <section className="mx-auto max-w-[1400px] px-4 py-28 md:px-12 md:py-40">
-        <div className="mb-16 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <section className="mx-auto max-w-[1400px] px-4 py-10 md:px-12 md:py-40">
+        <div className="md:mb-16 mb-8 flex flex-col md:gap-8 gap-4 md:flex-row md:items-end md:justify-between">
           <Reveal>
             <p className="eyebrow">Prime Edition — Quiet Comfortable</p>
             <h2 className="display mt-4 max-w-3xl text-3xl leading-none md:text-5xl">
@@ -295,7 +295,7 @@ export default function Home() {
 
       {/* EDITORIAL SPLIT */}
       <section className="bg-cream">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 px-6 py-28 md:grid-cols-12 md:gap-20 md:px-12 md:py-40">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-6 px-6 py-10 md:grid-cols-12 md:gap-20 md:px-12 md:py-40">
           <Reveal className="md:col-span-7">
             <div className="overflow-hidden bg-stone">
               {/* FIX: Render single image (first), not a mapped list */}
@@ -316,23 +316,23 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <div className="md:col-span-5 md:pt-24">
+          <div className="md:col-span-5 md:pt-2">
             <Reveal>
               <p className="eyebrow">Confidence</p>
-              <h2 className="display mt-6 text-3xl leading-[1.05] md:text-5xl">
+              <h2 className="display mt-3 text-3xl leading-[1.05] md:text-5xl">
                 Chic Looks Begin at Your Feet, Walk with{" "}
                 <span className="italic text-accent">Confidence</span>.
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="mt-8 text-base leading-relaxed text-muted-foreground">
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                 Your style begins with the perfect pair. Step into footwear that
                 blends elegance, comfort, and confidence, empowering you to walk
                 beautifully wherever life takes you.
               </p>
             </Reveal>
             <Reveal delay={0.2}>
-              <dl className="mt-12 grid grid-cols-2 gap-y-8 border-t border-border pt-8">
+              <dl className="mt-6 grid grid-cols-2 gap-y-8 border-t border-border pt-8">
                 {[
                   ["1000+", "Unique Articles"],
                   ["15+", "Color Patterns"],
@@ -353,16 +353,16 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-[1400px] px-6 py-10 text-center md:px-12 md:py-20">
+      <section className="mx-auto max-w-[1400px] px-6 py-8 text-center md:px-12 md:py-20">
         <Reveal>
-          <h2 className="display mx-auto mt-6 max-w-4xl text-5xl leading-none md:text-7xl">
+          <h2 className="display mx-auto mt-3 max-w-4xl text-4xl leading-none md:text-7xl">
             Choose <span className="italic text-accent">one pair</span>
             <br />
             you'll wear forever.
           </h2>
         </Reveal>
         <Reveal delay={0.15}>
-          <div className="mt-12">
+          <div className="mt-6">
             <Link
               to="/products"
               className="inline-flex items-center gap-3 border-b border-ink pb-2 text-[12px] uppercase tracking-[0.3em] transition-colors hover:text-accent hover:border-accent"

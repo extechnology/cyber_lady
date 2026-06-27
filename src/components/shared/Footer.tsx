@@ -4,8 +4,8 @@ import { FaLocationDot, FaPhone, FaEnvelope } from "react-icons/fa6";
 export function Footer() {
   return (
     <footer className=" border-t border-border bg-cream">
-      <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-12">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="mx-auto max-w-[1400px] px-6 md:py-20 py-10 md:px-12">
+        <div className="grid gap-6 md:gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Link to="/" className="inline-block">
               <img
@@ -78,7 +78,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="rule mt-16" />
+        <div className="rule md:mt-16 mt-8" />
         <div className="mt-6 flex flex-col items-start justify-between gap-2 text-xs text-muted-foreground md:flex-row md:items-center">
           <p>© {new Date().getFullYear()} Cyber Lady</p>
           <p>Developed by <Link to="https://www.extechnology.in/">extechnology.in</Link></p>
@@ -101,7 +101,7 @@ function FooterCol({
   return (
     <div>
       <p className="eyebrow">{title}</p>
-      <ul className="mt-4 space-y-2 text-sm">
+      <ul className="mt-2 space-y-2 text-sm">
         {links.map((l) => (
           <li key={l.label}>
             <Link to={l.to} className="link-underline">

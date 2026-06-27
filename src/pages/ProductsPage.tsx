@@ -1,10 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiCheck } from "react-icons/fi";
 
 import { useProducts } from "../features/product/hooks/useProducts";
 import type { Product } from "../features/product/types/types.product";
-
 
 import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { Reveal } from "../components/site/Reveal";
@@ -14,7 +13,6 @@ import useCategories from "../features/category/hooks/useCategories";
 import useTypes from "../features/product_types/hooks/useTypes";
 
 const SORTS = ["Featured", "Price · low", "Price · high"] as const;
-
 type Sort = (typeof SORTS)[number];
 
 export default function ProductsPage() {
@@ -25,9 +23,6 @@ export default function ProductsPage() {
 
   const { data: categories } = useCategories();
   const { data: types } = useTypes();
-
-  console.log("categories",categories);
-  console.log("types",types);
 
   const CATEGORIES = categories?.map((category) => category.name) || [];
   const TYPES = types?.map((type) => type.name) || [];
@@ -70,54 +65,36 @@ export default function ProductsPage() {
       </section>
 
       {/* Filters */}
-      <section className="sticky top-[72px] z-30 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-6 py-4 text-[11px] uppercase tracking-[0.25em] md:flex-row md:items-center md:justify-between md:px-12 md:py-5 md:text-xs">
-          <div className="flex w-full flex-col gap-4 overflow-hidden md:w-auto md:flex-row md:gap-8">
-            <FilterRow
+      <section className="sticky md:top-[95px] top-[80px] z-30 border-b border-border bg-background/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-6 py-4 md:flex-row md:items-center md:justify-between md:px-12 md:py-5">
+          <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:gap-6">
+            <FancySelect
               label="Category"
-              options={CATEGORIES}
+              options={["All", ...CATEGORIES]}
               value={cat}
-              onChange={(v) => setCat(v)}
+              onChange={setCat}
             />
-            <FilterRow
+            <FancySelect
               label="Type"
-              options={TYPES}
+              options={["All", ...TYPES]}
               value={type}
-              onChange={(v) => setType(v)}
+              onChange={setType}
             />
           </div>
 
-          <div className="flex items-center justify-between border-t border-border/50 pt-4 md:border-t-0 md:pt-0 md:justify-end">
-            <span className="w-[85px] shrink-0 text-muted-foreground md:hidden">
-              Sort
-            </span>
-            <div className="flex w-full items-center gap-3 md:w-auto">
-              <span className="hidden shrink-0 text-muted-foreground md:inline">
-                Sort
-              </span>
-              <div className="relative w-full md:w-auto">
-                <select
-                  value={sort}
-                  onChange={(e) => setSort(e.target.value as Sort)}
-                  className="w-full cursor-pointer appearance-none border-b border-border bg-transparent pb-1 pr-6 text-[11px] uppercase tracking-[0.25em] focus:border-accent focus:outline-none"
-                >
-                  {SORTS.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pb-1 text-muted-foreground">
-                  <FiChevronDown className="h-4 w-4" />
-                </div>
-              </div>
-            </div>
+          <div className="flex items-center justify-between border-t border-border/50 pt-3 md:border-t-0 md:pt-0 md:justify-end">
+            <FancySelect
+              label="Sort"
+              options={[...SORTS]}
+              value={sort}
+              onChange={(v) => setSort(v as Sort)}
+            />
           </div>
         </div>
       </section>
 
       {/* Grid */}
-      <section className="mx-auto max-w-[1400px] px-4 py-20 md:px-12 md:py-28">
+      <section className="mx-auto max-w-[1400px] px-4 py-10 md:px-12 md:py-28">
         <AnimatePresence mode="popLayout">
           {isLoading ? (
             <motion.div
@@ -162,42 +139,173 @@ export default function ProductsPage() {
   );
 }
 
-function FilterRow<T extends string>({
+/* ─── Custom Fancy Select ─────────────────────────────────────────────────── */
+
+function FancySelect({
   label,
   options,
   value,
   onChange,
 }: {
   label: string;
-  options: readonly T[];
-  value: T;
-  onChange: (v: T) => void;
+  options: readonly string[];
+  value: string;
+  onChange: (v: string) => void;
 }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Close on outside click
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
   return (
-    <div className="flex w-full items-center">
-      <span className="w-[85px] shrink-0 text-muted-foreground md:w-auto md:pr-4">
+    <div ref={ref} className="relative flex items-center gap-2">
+      {/* Label */}
+      <span
+        style={{
+          fontSize: "10px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "var(--color-muted-foreground, #888)",
+          userSelect: "none",
+          whiteSpace: "nowrap",
+        }}
+      >
         {label}
       </span>
-      <div className="flex flex-1 items-center gap-x-5 overflow-x-auto pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
-        {options.map((o) => {
-          const active = o === value;
-          return (
-            <button
-              key={o}
-              onClick={() => onChange(o)}
-              className={`relative shrink-0 cursor-pointer pb-1 transition-colors ${active ? "text-accent" : "hover:text-accent"}`}
-            >
-              {o}
-              {active && (
-                <motion.span
-                  layoutId={`underline-${label}`}
-                  className="absolute inset-x-0 -bottom-0.5 h-px bg-accent"
-                />
-              )}
-            </button>
-          );
-        })}
-      </div>
+
+      {/* Trigger button */}
+      <button
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "6px",
+          padding: "2px 10px 2px 10px",
+          borderRadius: "4px",
+          border: open
+            ? "1px solid var(--color-accent, #c084fc)"
+            : "1px solid var(--color-border, rgba(255,255,255,0.12))",
+          background: open
+            ? "rgba(192, 132, 252, 0.08)"
+            : "rgba(255,255,255,0.04)",
+          cursor: "pointer",
+          fontSize: "11px",
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          color: open
+            ? "var(--color-accent, #c084fc)"
+            : "var(--color-foreground, #fff)",
+          backdropFilter: "blur(8px)",
+          transition: "all 0.2s ease",
+          whiteSpace: "nowrap",
+          minWidth: "100px",
+          justifyContent: "space-between",
+        }}
+      >
+        <span>{value}</span>
+        <motion.span
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <FiChevronDown style={{ width: "13px", height: "13px" }} />
+        </motion.span>
+      </button>
+
+      {/* Dropdown panel */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="panel"
+            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.97 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            style={{
+              position: "absolute",
+              top: "calc(100% + 10px)",
+              left: "auto",
+              right: 0,
+              minWidth: "160px",
+              zIndex: 50,
+              borderRadius: "6px",
+              border: "1px solid rgba(255,255,255,0.10)",
+              background:
+                "linear-gradient(135deg, rgba(250, 248, 244, 0.98) 0%, rgba(240, 236, 230, 0.98) 100%)",
+              backdropFilter: "blur(20px)",
+              boxShadow:
+                "0 8px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(192,132,252,0.08) inset",
+              overflow: "hidden",
+              padding: "6px",
+            }}
+          >
+            {options.map((opt) => {
+              const active = opt === value;
+              return (
+                <button
+                  key={opt}
+                  onClick={() => {
+                    onChange(opt);
+                    setOpen(false);
+                  }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    padding: "4px 8px 4px 8px",
+                    borderRadius: "4px",
+                    fontSize: "11px",
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                    border: "none",
+                    background: active
+                      ? "rgba(192,132,252,0.15)"
+                      : "transparent",
+                    color: active
+                      ? "var(--color-accent, #c084fc)"
+                      : "rgba(10,10,10,0.75)",
+                    transition: "background 0.15s, color 0.15s",
+                    textAlign: "left",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!active)
+                      (e.currentTarget as HTMLButtonElement).style.background =
+                        "rgba(0,0,0,0.06)";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!active)
+                      (e.currentTarget as HTMLButtonElement).style.background =
+                        "transparent";
+                  }}
+                >
+                  <span>{opt}</span>
+                  {active && (
+                    <FiCheck
+                      style={{
+                        width: "12px",
+                        height: "12px",
+                        flexShrink: 0,
+                        marginLeft: "8px",
+                      }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
