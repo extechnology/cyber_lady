@@ -267,7 +267,7 @@ export default function Home() {
       </section>
 
       {/* FEATURED */}
-      <section className="mx-auto max-w-[1400px] px-6 py-28 md:px-12 md:py-40">
+      <section className="mx-auto max-w-[1400px] px-4 py-28 md:px-12 md:py-40">
         <div className="mb-16 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <Reveal>
             <p className="eyebrow">Prime Edition — Quiet Comfortable</p>
@@ -286,7 +286,7 @@ export default function Home() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-16">
+        <div className="grid grid-cols-2 gap-4 md:gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-16">
           {featured.map((p, i) => (
             <ProductCard key={p.id} product={p} index={i} />
           ))}

@@ -13,12 +13,8 @@ import { ProductCard } from "../components/site/ProductCard";
 import useCategories from "../features/category/hooks/useCategories";
 import useTypes from "../features/product_types/hooks/useTypes";
 
-// const CATEGORIES = ["All", "Ladies", "Girls", "Gents & Boys", "Kids"] as const;
-// const TYPES = ["All", "Sandals", "Flip Flop", "Slippers", "Shoes"] as const;
 const SORTS = ["Featured", "Price · low", "Price · high"] as const;
 
-// type Category = (typeof CATEGORIES)[number];
-// type Type = (typeof TYPES)[number];
 type Sort = (typeof SORTS)[number];
 
 export default function ProductsPage() {
@@ -121,7 +117,7 @@ export default function ProductsPage() {
       </section>
 
       {/* Grid */}
-      <section className="mx-auto max-w-[1400px] px-6 py-20 md:px-12 md:py-28">
+      <section className="mx-auto max-w-[1400px] px-4 py-20 md:px-12 md:py-28">
         <AnimatePresence mode="popLayout">
           {isLoading ? (
             <motion.div
@@ -153,7 +149,7 @@ export default function ProductsPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-16"
+              className="grid grid-cols-2 gap-4 md:gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-16"
             >
               {filtered.map((p, i) => (
                 <ProductCard key={p.id} product={p} index={i} />

@@ -73,12 +73,12 @@ export function ProductCard({
             />
           )}
           <div className="absolute inset-x-0 bottom-0 translate-y-full bg-ink/90 px-5 py-3 text-center text-[11px] uppercase tracking-[0.25em] text-cream transition-transform duration-500 group-hover:translate-y-0">
-            View piece →
+            View Color Options →
           </div>
         </div>
         <div className="mt-5 flex items-baseline justify-between gap-4">
           <div>
-            <h3 className="display text-lg leading-tight">{product.name}</h3>
+            <h3 className="md:display md:text-lg text-xs leading-tight">{product.name}</h3>
             <p className="mt-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
               {colorName} · {product.category?.name}
             </p>
