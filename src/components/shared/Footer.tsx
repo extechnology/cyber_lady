@@ -29,7 +29,7 @@ export function Footer() {
               { to: "/products", label: "Kids" },
             ]}
           />
-          
+
           <FooterCol
             title="Links"
             links={[
@@ -57,10 +57,7 @@ export function Footer() {
 
               <li className="flex items-center gap-3">
                 <FaPhone className="text-ink" />
-                <a
-                  href="tel:+919447995173"
-                  className="link-underline"
-                >
+                <a href="tel:+919447995173" className="link-underline">
                   +91 94479 95173
                 </a>
               </li>
@@ -78,12 +75,23 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="rule md:mt-16 mt-8" />
+        <div>
+          <p className="text-center pt-3 md:pt-0 text-xs text-muted-foreground">
+            Our Parent Company Legal Name is FORIYEX FOOT CARE CO. & Tax
+            Registration No. is 32AACFF1883C1ZX
+          </p>
+        </div>
+
+        <div className="rule mt-4 md:mt-8" />
         <div className="mt-6 flex flex-col items-start justify-between gap-2 text-xs text-muted-foreground md:flex-row md:items-center">
           <p>© {new Date().getFullYear()} Cyber Lady</p>
-          <p>Developed by <Link to="https://www.extechnology.in/">extechnology.in</Link></p>
+          <p>
+            Developed by{" "}
+            <Link to="https://www.extechnology.in/">extechnology.in</Link>
+          </p>
           <p className="text-xs tracking-[.1] ">
-            <Link to="/privacy-policy">Privacy Policy</Link> · <Link to="/terms-and-conditions">Terms & Conditions</Link>
+            <Link to="/privacy-policy">Privacy Policy</Link> ·{" "}
+            <Link to="/terms-and-conditions">Terms & Conditions</Link>
           </p>
         </div>
       </div>
