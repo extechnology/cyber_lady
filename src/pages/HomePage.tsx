@@ -57,7 +57,7 @@ export default function Home() {
   }, [total, active]);
 
   const featured = apiProducts
-    ? apiProducts.filter((p) => p.is_featured).slice(0, 3)
+    ? apiProducts.filter((p) => p.is_featured)
     : [];
 
   // FIX: reference apiProducts (was missing from original — keep your existing hook)
