@@ -97,6 +97,30 @@ export default function Contact() {
                 title="Direct"
                 lines={["foriyexfootcare@gmail.com", "+91 94479 95173"]}
               />
+              
+              <div className="pt-4">
+                <p className="eyebrow mb-3">Location</p>
+                <div className="h-[240px] w-full bg-muted/20">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    title="Location Map"
+                    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3920.755041768725!2d76.05430217504043!3d10.676112189466615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTDCsDQwJzM0LjAiTiA3NsKwMDMnMjQuOCJF!5e0!3m2!1sen!2sin!4v1782888098370!5m2!1sen!2sin"
+                    style={{ border: 0, filter: "grayscale(20%) contrast(1.1)" }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade" 
+                  ></iframe>
+                </div>
+                <a
+                  href="https://maps.app.goo.gl/quWvps54DtGmwFX78"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-ink"
+                >
+                  Open in Google Maps <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </a>
+              </div>
             </div>
           </Reveal>
         </div>
