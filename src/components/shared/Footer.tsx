@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaLocationDot, FaPhone, FaEnvelope } from "react-icons/fa6";
+import { FaLocationDot, FaPhone, FaEnvelope, FaWhatsapp } from "react-icons/fa6";
 
 export function Footer() {
   return (
@@ -58,6 +58,18 @@ export function Footer() {
               <li className="flex items-center gap-3">
                 <FaPhone className="text-ink" />
                 <a href="tel:+919447995173" className="link-underline">
+                  +91 94479 95173
+                </a>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <FaWhatsapp className="text-ink" />
+                <a
+                  href="https://wa.me/+919447995173?text=Hello,%20I%20would%20like%20to%20order%20sandals"
+                  className="link-underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   +91 94479 95173
                 </a>
               </li>
