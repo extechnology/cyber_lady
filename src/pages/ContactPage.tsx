@@ -95,7 +95,7 @@ export default function Contact() {
               /> */}
               <Block
                 title="Direct"
-                lines={["foriyexfootcare@gmail.com", "+91 94479 95173"]}
+                lines={["foriyexfootcare@gmail.com", "+91 70251 18173"]}
               />
               
               <div className="pt-4">

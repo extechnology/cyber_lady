@@ -50,7 +50,7 @@ export default function DetailPage() {
 
   const availableSizes = activeColor?.sizes || [];
 
-  const whatsappNumber = "919447995173";
+  const whatsappNumber = "917025118173";
 
   const handleWhatsApp = () => {
     if (!product) return;

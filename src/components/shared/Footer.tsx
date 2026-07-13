@@ -57,20 +57,20 @@ export function Footer() {
 
               <li className="flex items-center gap-3">
                 <FaPhone className="text-ink" />
-                <a href="tel:+919447995173" className="link-underline">
-                  +91 94479 95173
+                <a href="tel:+917025118173" className="link-underline">
+                  +91 70251 18173
                 </a>
               </li>
 
               <li className="flex items-center gap-3">
                 <FaWhatsapp className="text-ink" />
                 <a
-                  href="https://wa.me/+919447995173?text=Hello,%20I%20would%20like%20to%20order%20sandals"
+                  href="https://wa.me/+917025118173?text=Hello,%20I%20would%20like%20to%20order%20sandals"
                   className="link-underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  +91 94479 95173
+                  +91 70251 18173
                 </a>
               </li>
 
