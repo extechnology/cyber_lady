@@ -47,7 +47,7 @@ export default function TermsAndConditions() {
         <strong className="text-slate-900">Company</strong> (referred to as
         either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or
         &quot;Our&quot; in these Terms and Conditions) refers to Cyber Lady
-        Foryex Footcare Co. , West Mangad P.O. Kunnamkulam Thrissur, Kerala
+        Foriyex Footcare Co. , West Mangad P.O. Kunnamkulam Thrissur, Kerala
         &ndash; India.
       </p>
 

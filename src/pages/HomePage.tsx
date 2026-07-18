@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { useRef, useState, useEffect, useCallback } from "react";
+import VideoGallery from "../components/home/VideoGallery";
 
 import { useHeroImage } from "../features/home/hooks/useHeroImage";
 import { useProducts } from "../features/product/hooks/useProducts";
@@ -56,9 +57,7 @@ export default function Home() {
     }
   }, [total, active]);
 
-  const featured = apiProducts
-    ? apiProducts.filter((p) => p.is_featured)
-    : [];
+  const featured = apiProducts ? apiProducts.filter((p) => p.is_featured) : [];
 
   // FIX: reference apiProducts (was missing from original — keep your existing hook)
 
@@ -69,7 +68,7 @@ export default function Home() {
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 md:gap-10 gap-5 px-1 pb-20 md:grid-cols-12 md:px-12 md:pt-5">
           <motion.div
             style={{ y, opacity }}
-            className="md:col-span-6 content-center order-2 md:order-1 px-4"
+            className="md:col-span-6 content-center order-2 md:order-1 px-2 md:px-4"
           >
             <Breadcrumbs
               items={[
@@ -91,7 +90,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="md:mt-8 mt-4 max-w-md text-base leading-relaxed text-muted-foreground"
+              className="md:mt-8 mt-4 max-w-md text-base text-justify leading-relaxed text-muted-foreground"
             >
               Stylish, comfortable, and crafted for every occasion, our ladies'
               footwear collection adds elegance and confidence to every step.
@@ -267,7 +266,7 @@ export default function Home() {
       </section>
 
       {/* FEATURED */}
-      <section className="mx-auto max-w-[1400px] px-4 py-10 md:px-12 md:py-40">
+      <section className="mx-auto max-w-[1400px] px-2 py-10 md:px-12 md:py-20">
         <div className="md:mb-16 mb-8 flex flex-col md:gap-8 gap-4 md:flex-row md:items-end md:justify-between">
           <Reveal>
             <p className="eyebrow">Prime Edition — Quiet Comfortable</p>
@@ -291,6 +290,10 @@ export default function Home() {
             <ProductCard key={p.id} product={p} index={i} />
           ))}
         </div>
+      </section>
+
+      <section>
+        <VideoGallery />
       </section>
 
       {/* EDITORIAL SPLIT */}

@@ -52,7 +52,7 @@ export default function PrivacyPolicy() {
       <p className="mb-3 pl-4 border-l-2 border-slate-200">
         <strong className="text-slate-900">Company</strong> (referred to as
         either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or
-        &quot;Our&quot; in this Privacy Policy) refers to Cyber Lady Foryex
+        &quot;Our&quot; in this Privacy Policy) refers to Cyber Lady Foriyex
         Footcare Co, West Mangad P.O. Kunnamkulam Thrissur, Kerala &ndash;
         India.
       </p>

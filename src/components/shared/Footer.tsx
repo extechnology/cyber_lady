@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
-import { FaLocationDot, FaPhone, FaEnvelope, FaWhatsapp } from "react-icons/fa6";
+import {
+  FaLocationDot,
+  FaPhone,
+  FaEnvelope,
+  FaWhatsapp,
+} from "react-icons/fa6";
 
 export function Footer() {
   return (
@@ -45,7 +50,8 @@ export function Footer() {
               <li className="flex items-start gap-3 text-muted-foreground">
                 <FaLocationDot className="mt-1 shrink-0 text-ink" />
                 <span className="leading-relaxed">
-                  Cyber Lady Foryex Footcare Co.
+                  Cyber Lady <br />
+                  Foriyex Footcare Co.
                   <br />
                   West Mangad P.O.
                   <br />

@@ -78,7 +78,7 @@ export default function Contact() {
               <Block
                 title="Cyber Lady"
                 lines={[
-                  "Foryex Footcare Co.",
+                  "Foriyex Footcare Co.",
                   "West Mangad Po",
                   "Kunnamkulam",
                   "Thrissur",
