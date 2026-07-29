@@ -4,6 +4,12 @@ import {
   FaPhone,
   FaEnvelope,
   FaWhatsapp,
+  FaFacebookF,
+  FaInstagram,
+  FaYoutube,
+  FaLinkedinIn,
+  FaXTwitter,
+  FaPinterest,
 } from "react-icons/fa6";
 
 export function Footer() {
@@ -22,6 +28,63 @@ export function Footer() {
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               Sandals made slowly, in small numbers, by hands we know by name.
             </p>
+
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href="https://www.facebook.com/profile.php?id=61591054222509"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="group flex h-9 w-9 items-center justify-center rounded-full border border-border bg-transparent text-ink hover:border-ink hover:bg-ink transition-all duration-200"
+              >
+                <FaFacebookF className="h-4 w-4 text-ink group-hover:text-cream transition-colors duration-200" />
+              </a>
+              <a
+                href="https://www.instagram.com/cyberlady_official/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="group flex h-9 w-9 items-center justify-center rounded-full border border-border bg-transparent text-ink hover:border-ink hover:bg-ink transition-all duration-200"
+              >
+                <FaInstagram className="h-4 w-4 text-ink group-hover:text-cream transition-colors duration-200" />
+              </a>
+              <a
+                href="https://in.pinterest.com/cyberlady_official/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Pinterest"
+                className="group flex h-9 w-9 items-center justify-center rounded-full border border-border bg-transparent text-ink hover:border-ink hover:bg-ink transition-all duration-200"
+              >
+                <FaPinterest className="h-4 w-4 text-ink group-hover:text-cream transition-colors duration-200" />
+              </a>
+              <a
+                href="https://www.youtube.com/@cyberlady_official"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="group flex h-9 w-9 items-center justify-center rounded-full border border-border bg-transparent text-ink hover:border-ink hover:bg-ink transition-all duration-200"
+              >
+                <FaYoutube className="h-4 w-4 text-ink group-hover:text-cream transition-colors duration-200" />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/cyber-lady/?viewAsMember=true"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="group flex h-9 w-9 items-center justify-center rounded-full border border-border bg-transparent text-ink hover:border-ink hover:bg-ink transition-all duration-200"
+              >
+                <FaLinkedinIn className="h-4 w-4 text-ink group-hover:text-cream transition-colors duration-200" />
+              </a>
+              <a
+                href="https://x.com/cyberlady_"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                className="group flex h-9 w-9 items-center justify-center rounded-full border border-border bg-transparent text-ink hover:border-ink hover:bg-ink transition-all duration-200"
+              >
+                <FaXTwitter className="h-4 w-4 text-ink group-hover:text-cream transition-colors duration-200" />
+              </a>
+            </div>
           </div>
 
           <FooterCol
@@ -43,7 +106,6 @@ export function Footer() {
               { to: "/contact", label: "Contact" },
             ]}
           />
-
           <div>
             <p className="eyebrow">Contact Us</p>
             <ul className="mt-4 space-y-4 text-sm text-ink">
@@ -113,6 +175,18 @@ export function Footer() {
           </p>
         </div>
       </div>
+
+      {/* Fixed Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/+917025118173?text=Hello,%20I%20would%20like%20to%20order%20sandals"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        style={{ backgroundColor: "#25D366" }}
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-xl hover:scale-110 active:scale-95 transition-all duration-200"
+      >
+        <FaWhatsapp className="h-7 w-7 text-white" />
+      </a>
     </footer>
   );
 }
