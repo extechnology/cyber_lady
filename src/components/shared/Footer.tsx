@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import {
-  FaLocationDot,
-  FaPhone,
-  FaEnvelope,
+  // FaLocationDot,
+  // FaPhone,
+  // FaEnvelope,
   FaWhatsapp,
   FaFacebookF,
   FaInstagram,
@@ -106,7 +106,7 @@ export function Footer() {
               { to: "/contact", label: "Contact" },
             ]}
           />
-          <div>
+          {/* <div>
             <p className="eyebrow">Contact Us</p>
             <ul className="mt-4 space-y-4 text-sm text-ink">
               <li className="flex items-start gap-3 text-muted-foreground">
@@ -152,7 +152,7 @@ export function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         <div>

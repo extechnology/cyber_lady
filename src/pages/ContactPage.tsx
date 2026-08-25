@@ -70,8 +70,8 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1400px] grid-cols-1 gap-16 px-6 py-20 md:grid-cols-12 md:px-12 md:py-28">
-        <div className="md:col-span-5">
+      <section className="mx-auto max-w-[900px] px-6 py-20 md:px-12 md:py-28">
+        {/* <div className="md:col-span-5">
           <Reveal>
             <p className="eyebrow">House</p>
             <div className="mt-6 space-y-8 text-sm leading-relaxed">
@@ -85,14 +85,6 @@ export default function Contact() {
                   "Kerala-India",
                 ]}
               />
-              {/* <Block
-                title="Studio hours"
-                lines={[
-                  "Monday — Saturday",
-                  "10:00 — 18:00 CET",
-                  "By appointment",
-                ]}
-              /> */}
               <Block
                 title="Direct"
                 lines={["foriyexfootcare@gmail.com", "+91 70251 18173"]}
@@ -123,9 +115,9 @@ export default function Contact() {
               </div>
             </div>
           </Reveal>
-        </div>
+        </div> */}
 
-        <div className="md:col-span-7">
+        <div className="w-full">
           <Reveal delay={0.1}>
             <form onSubmit={handleSubmit} className="space-y-10">
               <Field
@@ -195,7 +187,7 @@ export default function Contact() {
   );
 }
 
-function Block({ title, lines }: { title: string; lines: string[] }) {
+/* function Block({ title, lines }: { title: string; lines: string[] }) {
   return (
     <div>
       <p className="eyebrow">{title}</p>
@@ -206,7 +198,7 @@ function Block({ title, lines }: { title: string; lines: string[] }) {
       </div>
     </div>
   );
-}
+} */
 
 interface FieldProps {
   label: string;
